@@ -1,9 +1,11 @@
-﻿using Nuke.Common;
+﻿using Framework;
+using Nuke.Common;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tools.DotNet;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace Build.Targets
@@ -26,13 +28,16 @@ namespace Build.Targets
             });
 
         public Target Package => _ => _
-            .DependsOn(Compile)
+            //.DependsOn(Compile)
             .Description("Publishing the build")
-            .Executes(() =>
+            .Executes(async () =>
             {
-                DotNetTasks.DotNetPublish(settings => settings
-                .SetProject(Solution)
-                .SetOutput(PublishDirectory));
+               // DotNetTasks.DotNetPublish(settings => settings
+               // .SetProject(Solution)
+              //  .SetOutput(PublishDirectory));
+
+              //  FileSystemTasks.CopyFileToDirectory(Path.Combine(RootDirectory, "Dockerfile"), PublishDirectory);
+                await DockerUtility.CreateDockerImage(PublishDirectory);
             });
 
         public static int Main() => Execute<Build>(x => x.Compile);
