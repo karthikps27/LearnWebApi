@@ -6,74 +6,105 @@ using System.Text;
 using System.Threading.Tasks;
 using ICSharpCode.SharpZipLib.Tar;
 using Docker.DotNet.Models;
+using Newtonsoft.Json;
+using Amazon.Runtime;
+using Amazon.ECR;
+using Amazon.ECR.Model;
+using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Framework
 {
     public static class DockerUtility
     {
-        public static async Task CreateDockerImage(string publishDirectory) 
-        {
-            /* DockerClient dockerClient = new DockerClientConfiguration(new Uri("npipe://./pipe/docker_engine")).CreateClient();
-            new MemoryStream();
-
-            using (var memoryStream = new MemoryStream())
-            {
-                Console.WriteLine("Memory stream length before: " + memoryStream.Length);
-                using (var tarArchive = TarArchive.CreateOutputTarArchive(memoryStream))
-                {
-                    tarArchive.RootPath = publishDirectory;
-                    AddFilesToTarArchive(tarArchive, publishDirectory);
-                    Console.WriteLine("Memory stream length after: " + memoryStream.Length);
-                    var task = dockerClient.Images.BuildImageFromDockerfileAsync(memoryStream, new ImageBuildParameters { Tags = new List<string> { "tag" } });
-                    task.Wait();
-                }
-            } */
+        public static async Task CreateDockerImage(string publishDirectory, string repositoryName, string tag) 
+        {            
+            string line;
+            string imageId;
+            const string successfullyBuilt = "Successfully built ";            
 
             using var tarball = CreateTarballForDockerfileDirectory(publishDirectory);
-            using var dockerClientNew = new DockerClientConfiguration(new Uri("npipe://./pipe/docker_engine")).CreateClient();
-            using var responseStream = await dockerClientNew.Images.BuildImageFromDockerfileAsync(tarball, new ImageBuildParameters { Tags = new List<string> { "tag" } });
+            using var dockerClient = GetDockerClient();
+            using var responseStream = await dockerClient.Images.BuildImageFromDockerfileAsync(tarball, new ImageBuildParameters { Tags = new List<string> { $"{repositoryName}:{tag}" } });
             using var buildReader = new StreamReader(responseStream, new UTF8Encoding(false));            
+            while ((line = await buildReader.ReadLineAsync()) != null)
+            {
+                JSONMessage jsonMessage = JsonConvert.DeserializeObject<JSONMessage>(line);
+                Console.WriteLine(jsonMessage.Stream);
+                if(jsonMessage.Stream != null && jsonMessage.Stream.Contains(successfullyBuilt))
+                {
+                    imageId = jsonMessage.Stream.Substring(successfullyBuilt.Length).Trim();
+                    Console.WriteLine(imageId);
+                }
+            }                        
         }
 
-        public static void AddFilesToTarArchive(TarArchive tarArchive, string publishDirectory)
+        public static async Task PushDockerImageToEcr(string accountID, string registryAddress, AWSCredentials credentials, string repositoryName, string tag)
         {           
-            var filesPaths = Directory.GetFiles(publishDirectory);
-            foreach (var filepath in filesPaths)
+            var amazonECRClient = new AmazonECRClient(credentials);
+            var response = await amazonECRClient.GetAuthorizationTokenAsync(new GetAuthorizationTokenRequest
             {
-                var tarEntry = TarEntry.CreateEntryFromFile(filepath);
-                tarArchive.WriteEntry(tarEntry, false);
-            }
+                RegistryIds = new List<string>{ accountID }
+            });
 
-            var directories = Directory.GetDirectories(publishDirectory);
-            foreach(var directory in directories)
+            string[] tokens = Encoding.UTF8.GetString(Convert.FromBase64String(response.AuthorizationData.First().AuthorizationToken)).Split(":");
+
+            var authconfig = new AuthConfig
             {
-                AddFilesToTarArchive(tarArchive, directory);
+                Username = tokens[0],
+                Password = tokens[1],
+            };
+
+            using (DockerClient dockerClientNew = GetDockerClient())
+            {
+                await dockerClientNew.Images.TagImageAsync($"{repositoryName}:{tag}", 
+                    new ImageTagParameters { RepositoryName = $"{registryAddress}/{repositoryName}", Tag = tag });
+
+                await dockerClientNew.Images.PushImageAsync($"{registryAddress}/{repositoryName}:{tag}",
+                    new ImagePushParameters(), 
+                    authconfig, 
+                    new Progress<JSONMessage>(LogJsonMessage));
             }
         }
 
-        private static Stream CreateTarballForDockerfileDirectory(string directory)
+        public static DockerClient GetDockerClient()
+        {
+            string dockerEndpoint = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "npipe://./pipe/docker_engine" : "unix://var/run/docker.sock";
+            return new DockerClientConfiguration(new Uri(dockerEndpoint)).CreateClient();
+        }
+
+        public static void LogJsonMessage(JSONMessage message)
+        {
+            if(message.Error != null)
+            {
+                Console.WriteLine($"Message: {message.Error.Message} {message.ErrorMessage}");
+            }
+
+            if(message.ProgressMessage != null)
+            {
+                Console.WriteLine($"{message.Status} {message.ID} {message.ProgressMessage}");
+            }
+        }
+
+        private static Stream CreateTarballForDockerfileDirectory(string publishDirectory)
         {
             var tarball = new MemoryStream();
-            var files = Directory.GetFiles(directory, "*.*", SearchOption.AllDirectories);
+            var files = Directory.GetFiles(publishDirectory, "*.*", SearchOption.AllDirectories);
 
             using var archive = new TarOutputStream(tarball)
             {
-                //Prevent the TarOutputStream from closing the underlying memory stream when done
                 IsStreamOwner = false
             };
 
             foreach (var file in files)
             {
-                //Replacing slashes as KyleGobel suggested and removing leading /
-                string tarName = file.Substring(directory.Length).Replace('\\', '/').TrimStart('/');
+                string tarName = file.Substring(publishDirectory.Length).Replace('\\', '/').TrimStart('/');
 
-                //Let's create the entry header
                 var entry = TarEntry.CreateTarEntry(tarName);
                 using var fileStream = File.OpenRead(file);
                 entry.Size = fileStream.Length;
                 archive.PutNextEntry(entry);
 
-                //Now write the bytes of data
                 byte[] localBuffer = new byte[32 * 1024];
                 while (true)
                 {
@@ -84,12 +115,10 @@ namespace Framework
                     archive.Write(localBuffer, 0, numRead);
                 }
 
-                //Nothing more to do with this entry
                 archive.CloseEntry();
             }
             archive.Close();
 
-            //Reset the stream and return it, so it can be used by the caller
             tarball.Position = 0;
             return tarball;
         }

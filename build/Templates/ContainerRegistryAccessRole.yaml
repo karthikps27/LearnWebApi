@@ -1,0 +1,45 @@
+﻿AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  AllowedArn:
+    Description: "List of users or roles which can assume the container access role"
+    Type: "CommaDelimitedList"
+Resources:
+  AccessRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: !Sub "LearnWebApi-ContainerRegistryAccessRole"
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Ref "AllowedArn"
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: "Allow"
+                Action: "cloudformation:DescribeStacks"
+                Resource: "*"
+              - Effect: "Allow"
+                Action: "cloudformation:*"
+                Resource:
+                  - !Sub "arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/LearnWebApi-ContainerRegistry*"
+              - Effect: "Allow"
+                Action: "ecr:*"
+                Resource:
+                  - !Sub "arn:aws:ecr:${AWS::Region}:${AWS::AccountId}:repository/learnwebapi*"
+              - Effect: "Allow"
+                Action: "ecr:GetAuthorizationToken"
+                Resource: "*"
+              - Effect: "Allow"
+                Action: "ecr:CreateRepository"
+                Resource: "*"
+              - Effect: "Allow"
+                Action: "iam:*"
+                Resource:
+                  - !Sub "arn:aws:iam::${AWS::AccountId}:role/LearnWebApi-ContainerRegistry*"
