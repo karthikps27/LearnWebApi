@@ -12,7 +12,9 @@ namespace Framework
     {
         public static async Task<AssumeRoleResponse> AssumeRole(string roleArn, string sessionName, AWSCredentials credentials = null)
         {
-            AmazonSecurityTokenServiceClient amazonSecurityTokenServiceClient = new AmazonSecurityTokenServiceClient(credentials);
+            AmazonSecurityTokenServiceClient amazonSecurityTokenServiceClient = 
+                credentials != null ? new AmazonSecurityTokenServiceClient(credentials) : new AmazonSecurityTokenServiceClient();
+
             return await amazonSecurityTokenServiceClient.AssumeRoleAsync(new AssumeRoleRequest
             {
                 RoleArn = roleArn,

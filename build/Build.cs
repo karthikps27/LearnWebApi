@@ -1,4 +1,5 @@
-﻿using Amazon.Runtime;
+﻿using Amazon.CloudFormation.Model;
+using Amazon.Runtime;
 using Framework;
 using Nuke.Common;
 using Nuke.Common.IO;
@@ -14,6 +15,7 @@ namespace Build.Targets
 {
     public class Build : NukeBuild
     {
+        private EnvironmentSettings EnvironmentSettings => EnvironmentSettings.CreateSettingsInstance();
         public Target Clean => _ => _
             .Description("Cleaning previous build output")
             .Executes(() =>
@@ -39,7 +41,7 @@ namespace Build.Targets
                 .SetOutput(PublishDirectory));
 
                 FileSystemTasks.CopyFileToDirectory(Path.Combine(RootDirectory, "Dockerfile"), PublishDirectory);
-                await DockerUtility.CreateDockerImage(PublishDirectory, GlobalSettings.RepositoryName, "latest");                
+                await DockerUtility.CreateDockerImage(PublishDirectory, EnvironmentSettings.RepositoryName, "latest");
             });
 
         public Target UploadBuilds => _ => _
@@ -47,15 +49,31 @@ namespace Build.Targets
             .Description("Upload Builds to ECR")
             .Executes(async () =>
             {
-                var assumedRole = await AwsIamUtilities.AssumeRole(GlobalSettings.ContainerRegistryAccessRole, "upload", null);
-                await DockerUtility.PushDockerImageToEcr(GlobalSettings.AccountID,
-                    GlobalSettings.ContainerRegistryAddress,
+                EnvironmentSettings.CreateSettingsInstance();
+                var assumedRole = await AwsIamUtilities.AssumeRole(EnvironmentSettings.ContainerRegistryAccessRole, "upload",
+                    null);
+                await DockerUtility.PushDockerImageToEcr(EnvironmentSettings.AccountID,
+                    EnvironmentSettings.ContainerRegistryAddress,
                     assumedRole.Credentials,
-                    GlobalSettings.RepositoryName,
+                    EnvironmentSettings.RepositoryName,
                     "latest");
             });
 
-
+        public Target DeployApplication => _ => _
+            .DependsOn(UploadBuilds)
+            .Description("Deploy the application to fargate")
+            .Executes(async () => 
+            {
+                var parameters = new List<Parameter>
+                {
+                    new Parameter { ParameterKey = "CidrIp", ParameterValue = EnvironmentSettings.CidrIp },
+                    new Parameter { ParameterKey = "Image", ParameterValue = $"{EnvironmentSettings.ContainerRegistryAddress}/{EnvironmentSettings.RepositoryName}:latest" },
+                    new Parameter { ParameterKey = "SubnetIds", ParameterValue = EnvironmentSettings.SubnetIds },
+                    new Parameter { ParameterKey = "VpcId", ParameterValue = EnvironmentSettings.VpcId },
+                };
+                await AwsCloudformationUtils.CreateOrUpdateStack($"{EnvironmentSettings.RepositoryName}-Application",
+                    TemplatesDirectory / "Application.yaml", parameters);
+            });
 
         public static int Main() => Execute<Build>(x => x.Compile);
 
@@ -64,5 +82,6 @@ namespace Build.Targets
         public AbsolutePath SourceDirectory => RootDirectory / "src";
         public AbsolutePath OutputDirectory => RootDirectory / "output";
         public AbsolutePath PublishDirectory => RootDirectory / "publish";
+        public AbsolutePath TemplatesDirectory => RootDirectory / "build" / "Templates";
     }
 }
