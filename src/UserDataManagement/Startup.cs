@@ -31,10 +31,11 @@ namespace LearnWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<ILocalCache, LocalCache>();
-            services.AddTransient<IStrongPasswordRepository, StrongPasswordRepository>();
-            services.AddSingleton<IStrongPasswordCheckService, StrongPasswordCheckService>();
-            services.AddControllers();
+            services.AddSingleton<ILocalCache, LocalCache>()
+            .AddTransient<IStrongPasswordRepository, StrongPasswordRepository>()
+            .AddTransient<IStrongPasswordCheckService, StrongPasswordCheckService>()
+            .AddDbContextPool<UserDataContext>(options => options.UseNpgsql(Configuration.GetSection("DBConnectionString").Value))
+            .AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

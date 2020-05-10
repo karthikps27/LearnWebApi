@@ -22,7 +22,7 @@ namespace LearnWebApi.Controllers
         [HttpPut]
         public ActionResult<object> AddUserData([FromBody] UserData requestContent)
         {
-            bool strength = _strongPasswordCheckService.CheckPasswordStrength(requestContent.Id, requestContent.Password);
+            bool strength = _strongPasswordCheckService.CheckPasswordStrength(requestContent.Username, requestContent.Password);
 
             return StatusCode(StatusCodes.Status200OK, new { Strength = strength});
         }
@@ -33,6 +33,14 @@ namespace LearnWebApi.Controllers
             var userdata = await _strongPasswordCheckService.GetUserData(username);
 
             return new ObjectResult(userdata);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<object>> UpdateUserData([FromBody] UserData requestContent)
+        {
+            await _strongPasswordCheckService.UpdateUserData(requestContent.Username, requestContent.Password);
+
+            return StatusCode(StatusCodes.Status200OK, new { Status = "Done"});
         }
 
         /*

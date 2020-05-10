@@ -12,6 +12,10 @@ namespace LearnWebApi.Models
         {
         }
 
-        public DbSet<UserData> Userlist { get; set; }        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserData>().ToTable("UserData", "UserManagement");
+        }
+        public DbSet<UserData> Userlist { get; set; }
     }
 }

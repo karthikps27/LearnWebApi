@@ -12,6 +12,7 @@ namespace LearnWebApi.Services
     {
         bool CheckPasswordStrength(string key, string password);
         Task<UserData> GetUserData(string key);
+        Task UpdateUserData(string key, string password);
     }
 
     public class StrongPasswordCheckService : IStrongPasswordCheckService
@@ -49,6 +50,11 @@ namespace LearnWebApi.Services
         public async Task<UserData> GetUserData(string key)
         {
             return await _strongPasswordRepository.GetUserData(key);
+        }
+
+        public async Task UpdateUserData(string key, string password)
+        {
+            await _strongPasswordRepository.UpdateUserData(key, password);
         }
     }
 }
