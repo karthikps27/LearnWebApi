@@ -1,0 +1,97 @@
+﻿AWSTemplateFormatVersion: 2010-09-09
+Description: "cCloudformation Stack for fargate instance of LearnWebApi"
+Parameters: 
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+  CidrIp:
+    Type: String
+  Image:
+    Type: String
+  SubnetIds:
+    Type: List<String>
+Resources:
+  SecurityGroups:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Security group for LearnWebApi application"
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - CidrIp: !Ref CidrIp
+          FromPort: 5001
+          ToPort: 5001
+          IpProtocol: tcp
+        - CidrIp: !Ref CidrIp
+          FromPort: 80
+          ToPort: 80
+          IpProtocol: tcp
+  EcsCluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: "LearnWebApi-EcsCluster"
+  TaskDefinition:
+    Type: "AWS::ECS::TaskDefinition"
+    DependsOn: LogGroup
+    Properties:
+      Family: !Ref AWS::StackName
+      NetworkMode: awsvpc
+      TaskRoleArn: !GetAtt TaskRole.Arn
+      RequiresCompatibilities:
+        - FARGATE
+      Cpu: 256
+      Memory: 512
+      ExecutionRoleArn: !Ref ExecutionRole
+      ContainerDefinitions:
+        - Name: "LearnWebApi-ContainerDefinition"
+          Image: !Ref "Image"
+          PortMappings:
+            - ContainerPort: 80
+            - ContainerPort: 5001
+          LogConfiguration:
+            LogDriver: "awslogs"
+            Options:
+              awslogs-region: !Ref AWS::Region
+              awslogs-group: !Ref "LogGroup"
+              awslogs-stream-prefix: "ecs"
+  Service:
+    Type: "AWS::ECS::Service"
+    Properties:
+      Cluster: !GetAtt EcsCluster.Arn
+      TaskDefinition: !Ref TaskDefinition
+      DeploymentConfiguration:
+        MaximumPercent: 200
+        MinimumHealthyPercent: 100
+      DesiredCount: 1
+      LaunchType: FARGATE
+      NetworkConfiguration: 
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          Subnets: !Ref SubnetIds
+          SecurityGroups:
+            - !Ref "SecurityGroups"
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Join ['', [/ecs/, "LearnWebApi", TaskDefinition]]
+  TaskRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${AWS::StackName}-TaskRole"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: 'sts:AssumeRole'
+  ExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${AWS::StackName}-ExecutionRole"
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy'

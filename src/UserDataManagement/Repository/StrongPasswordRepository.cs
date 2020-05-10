@@ -51,7 +51,6 @@ namespace LearnWebApi.Repository
         {
             await _userDataContext.AddAsync(new UserData { Id = id, Password = password});
             await _userDataContext.SaveChangesAsync();
-            //_localCache.Set(id, password);
         }
     }
 }
