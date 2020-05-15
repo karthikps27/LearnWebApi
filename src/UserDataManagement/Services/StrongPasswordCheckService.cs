@@ -10,7 +10,7 @@ namespace LearnWebApi.Services
 {
     public interface IStrongPasswordCheckService
     {
-        bool CheckPasswordStrength(string key, string password);
+        Task<bool> CheckPasswordStrengthAsync(string key, string password);
         Task<UserData> GetUserData(string key);
         Task UpdateUserData(string key, string password);
     }
@@ -24,7 +24,7 @@ namespace LearnWebApi.Services
             _strongPasswordRepository = strongPasswordRepository;
         }
 
-        public bool CheckPasswordStrength(string key, string password)
+        public async Task<bool> CheckPasswordStrengthAsync(string key, string password)
         {
             var regexItem = new Regex("^[a-zA-Z0-9 ]*$");
 
@@ -43,7 +43,7 @@ namespace LearnWebApi.Services
                 return false;
             }
 
-            _strongPasswordRepository.StoreUserData(key, password);
+            await _strongPasswordRepository.StoreUserData(key, password);
             return true;
         }
 

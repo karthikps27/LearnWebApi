@@ -17,5 +17,9 @@
     <Folder Include="newmodels\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\UserDataPump\UserDataPump.csproj" />
+  </ItemGroup>
+
 
 </Project>

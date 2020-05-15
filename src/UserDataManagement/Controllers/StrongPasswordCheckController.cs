@@ -20,27 +20,59 @@ namespace LearnWebApi.Controllers
         }
 
         [HttpPut]
-        public ActionResult<object> AddUserData([FromBody] UserData requestContent)
+        public async Task<ActionResult<object>> AddUserData([FromBody] UserData requestContent)
         {
-            bool strength = _strongPasswordCheckService.CheckPasswordStrength(requestContent.Username, requestContent.Password);
-
-            return StatusCode(StatusCodes.Status200OK, new { Strength = strength});
+            try
+            {
+                bool strength = await _strongPasswordCheckService.CheckPasswordStrengthAsync(requestContent.Username, requestContent.Password);
+                return StatusCode(StatusCodes.Status200OK, new { Strength = strength});
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error while adding user data", Message = e.Message });
+            }
         }
 
         [HttpGet]
         public async Task<ActionResult<object>> GetUserData([FromQuery] string username)
         {
-            var userdata = await _strongPasswordCheckService.GetUserData(username);
-
-            return new ObjectResult(userdata);
+            try
+            {
+                var userdata = await _strongPasswordCheckService.GetUserData(username);
+                return new ObjectResult(userdata);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error while fetching user data", Message = e.Message });
+            }
         }
 
         [HttpPost]
         public async Task<ActionResult<object>> UpdateUserData([FromBody] UserData requestContent)
         {
-            await _strongPasswordCheckService.UpdateUserData(requestContent.Username, requestContent.Password);
+            try
+            {
+                await _strongPasswordCheckService.UpdateUserData(requestContent.Username, requestContent.Password);
+                return StatusCode(StatusCodes.Status200OK, new { Status = "Done"});
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error while updating user data", Message = e.Message });
+            }
+        }
 
-            return StatusCode(StatusCodes.Status200OK, new { Status = "Done"});
+        [HttpDelete]
+        public async Task<ActionResult<object>> DeleteUserData([FromQuery] string username)
+        {
+            try
+            {
+                await _strongPasswordCheckService.GetUserData(username);
+                return StatusCode(StatusCodes.Status200OK, new { Status = "Done" });
+            }
+            catch(Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error while deleting user data", Message = e.Message });
+            }
         }
 
         /*

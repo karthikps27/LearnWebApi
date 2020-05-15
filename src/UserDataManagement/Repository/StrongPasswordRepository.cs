@@ -25,18 +25,12 @@ namespace LearnWebApi.Repository
 
         public StrongPasswordRepository(ILocalCache localCache, UserDataContext userDataContext)
         {
-            _localCache = localCache;
-            /*_userDataContext = new UserDataContext(new DbContextOptionsBuilder<UserDataContext>()
-                .UseInMemoryDatabase(databaseName: "userlist")
-                .Options); 
-            _userDataContext = new UserDataContext(new DbContextOptionsBuilder<UserDataContext>()
-                .UseNpgsql(configuration.GetSection("DBConnectionString").Value).Options); */
+            _localCache = localCache;            
             _userDataContext = userDataContext;
         }
 
         public async Task<UserData> GetUserData(string username)
         {
-            //var userdata = _localCache.Get(username) ?? await _userDataContext.FindAsync<UserData>(username);
             UserData userdata = _localCache.Get(username);
             if(userdata != null)
             {
@@ -44,7 +38,6 @@ namespace LearnWebApi.Repository
                 return userdata;
             }
 
-            //userdata = _userDataContext.Userlist.Where(u => u.Username == username).ToList().First();
             userdata = (from u in _userDataContext.Userlist where u.Username == username select u).ToList().First();
             if (userdata != null)
             {
