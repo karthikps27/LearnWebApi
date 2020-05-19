@@ -25,17 +25,5 @@ namespace UserDataPump.Models
         }
 
         public DbSet<BookItem> BookItems { get; set; }
-        public DbSet<BookVolumeInfo> BookVolumeInfos { get; set; }
-        public DbSet<BookAccessInfo> BookAccessInfos { get; set; }
-        public DbSet<BookAccessInfoListPrice> BookAccessInfoListPrices { get; set; }
-        public DbSet<BookSearchInfo> BookSearchInfos { get; set; }
-        public DbSet<BookSaleInfo> BookSaleInfos { get; set; }
-        public DbSet<Offer> Offers { get; set; }
-        public DbSet<OfferListPrice> OfferListPrices { get; set; }
-        public DbSet<Epub> Epubs { get; set; }
-        public DbSet<ImageLink> ImageLinks { get; set; }
-        public DbSet<IndustryIdentifier> IndustryIdentifiers { get; set; }
-        public DbSet<ReadingMode> ReadingModes { get; set; }
-
     }
 }

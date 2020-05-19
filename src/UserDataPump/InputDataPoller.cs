@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
@@ -16,9 +17,11 @@ namespace UserDataPump.Framework
     public class InputDataPoller : IHostedService
     {
         private readonly IServiceScopeFactory _serviceScopeFactory;
-        public InputDataPoller(IServiceScopeFactory serviceScopeFactory)
+        private readonly IConfiguration _configuration;
+        public InputDataPoller(IServiceScopeFactory serviceScopeFactory, IConfiguration configuration)
         {
             _serviceScopeFactory = serviceScopeFactory;
+            _configuration = configuration;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -30,16 +33,16 @@ namespace UserDataPump.Framework
                 var bookItemsDbContext = scope.ServiceProvider.GetRequiredService<BookItemsDbContext>();
                 try
                 {
-                    streamReader = new StreamReader("D:/projects/Resources/BookResponse.json");
+                    streamReader = new StreamReader(Path.Combine(_configuration.GetSection("ResouceDirectory").Value, _configuration.GetSection("ResourceFilename").Value));
                     var jsonInputReader = new JsonInputReader(streamReader);
 
                     await AddOrUpdateEntity(bookItemsDbContext, jsonInputReader.GetAllDataFromJsonFile().First());
 
                     streamReader.Close();
                     DirectoryService.MoveJsonToDoneDirectory(
-                        "BookResponse.json",
-                        "D:/projects/Resources",
-                        "D:/projects/ResourcesReadComplete");
+                        _configuration.GetSection("ResourceFilename").Value,
+                        _configuration.GetSection("ResouceDirectory").Value,
+                        _configuration.GetSection("ReadResourceDirectory").Value);
                 }
                 catch(FileNotFoundException fe)
                 {
@@ -50,28 +53,18 @@ namespace UserDataPump.Framework
         }
 
         private async Task AddOrUpdateEntity(BookItemsDbContext bookItemsDbContext, BookItem bookItem)
-        {
-            //var bookData = (from book in bookItemsDbContext.BookItems where book.Id == bookItem.Id select book).ToList().First();
-            //var bookData = null;
-                /* bookItemsDbContext.BookItems
-                /*.Include(b => b.AccessInfo)
-                    .ThenInclude(b => b.Epub)
-                .Include(b => b.AccessInfo.Pdf)
-                .Include(b => b.SaleInfo)
-                .Include(b => b.SearchInfo)
-                .Include(b => b.VolumeInfo)
-                .First(b => b.Id == bookItem.Id); */
-            if (null == null)
+        {            
+            try
+            {
+                var bookData = (from book in bookItemsDbContext.BookItems where book.Id == bookItem.Id select book).ToList().First();
+                bookData = bookItem;
+                await bookItemsDbContext.SaveChangesAsync();
+            }
+            catch(InvalidOperationException exception) when (exception.Message.Contains("Sequence contains no elements"))
             {
                 bookItemsDbContext.BookItems.Add(bookItem);
                 await bookItemsDbContext.SaveChangesAsync();
-            }
-            else
-            {
-                //bookData.VolumeInfo.Publisher = bookItem.VolumeInfo.Publisher;
-                //bookData = bookItem;
-                //await bookItemsDbContext.SaveChangesAsync();
-            }            
+            }                    
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
