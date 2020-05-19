@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserDataPump", "src\UserDataPump\UserDataPump.csproj", "{F9F6BDAE-EEC0-4B2F-913C-F118D843E101}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,12 +28,17 @@ Global
 		{1D115FE7-497B-4E3D-9400-9EE9565FBDF2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{62A2F098-C26F-47B8-9231-B129DF262A20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{62A2F098-C26F-47B8-9231-B129DF262A20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9F6BDAE-EEC0-4B2F-913C-F118D843E101}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9F6BDAE-EEC0-4B2F-913C-F118D843E101}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9F6BDAE-EEC0-4B2F-913C-F118D843E101}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9F6BDAE-EEC0-4B2F-913C-F118D843E101}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1D115FE7-497B-4E3D-9400-9EE9565FBDF2} = {98D7A07E-2162-4D62-8BAE-D0A7B8948BB6}
+		{F9F6BDAE-EEC0-4B2F-913C-F118D843E101} = {98D7A07E-2162-4D62-8BAE-D0A7B8948BB6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D6263960-8D48-447C-9038-AA423CDE1F76}

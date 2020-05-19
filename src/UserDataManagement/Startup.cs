@@ -16,6 +16,7 @@ using LearnWebApi.Infrastructure;
 using LearnWebApi.Repository;
 using LearnWebApi.Services;
 using LearnWebApi.Models;
+using UserDataPump.Models;
 
 namespace LearnWebApi
 {
@@ -35,6 +36,7 @@ namespace LearnWebApi
             .AddTransient<IStrongPasswordRepository, StrongPasswordRepository>()
             .AddTransient<IStrongPasswordCheckService, StrongPasswordCheckService>()
             .AddDbContextPool<UserDataContext>(options => options.UseNpgsql(Configuration.GetSection("DBConnectionString").Value))
+            .AddEntityFrameworkNpgsql().AddDbContext<BookItemsDbContext>(options => options.UseNpgsql(Configuration.GetSection("DBConnectionString").Value))
             .AddControllers();
         }
 
