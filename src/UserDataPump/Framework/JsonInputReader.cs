@@ -16,7 +16,7 @@ namespace UserDataPump.Framework
             _streamReader = streamReader;
         }
 
-        public List<BookItems> GetAllDataFromJsonFile()
+        public List<BookItem> GetAllDataFromJsonFile()
         {
             string jsonData = _streamReader.ReadToEnd();
             BookApiResponse bookApiResponse = JsonConvert.DeserializeObject<BookApiResponse>(jsonData);

@@ -8,6 +8,6 @@ namespace UserDataPump.Models
     {
         public string Kind { get; set; }
         public int TotalItems { get; set; }
-        public List<BookItems> Items { get; set; }
+        public List<BookItem> Items { get; set; }
     }
 }
