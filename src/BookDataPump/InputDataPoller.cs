@@ -1,18 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using UserDataPump.Models;
+using BookDataPump.Models;
 
-namespace UserDataPump.Framework
+namespace BookDataPump.Framework
 {
     public class InputDataPoller : IHostedService
     {
@@ -46,8 +42,8 @@ namespace UserDataPump.Framework
                 }
                 catch(FileNotFoundException fe)
                 {
-                    
-                }                
+
+                }
                 await Task.Delay(TimeSpan.FromSeconds(10));
             }
         }

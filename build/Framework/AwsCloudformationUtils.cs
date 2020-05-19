@@ -1,11 +1,9 @@
 ﻿using Amazon.CloudFormation;
 using Amazon.CloudFormation.Model;
-using Amazon.SecurityToken.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Framework

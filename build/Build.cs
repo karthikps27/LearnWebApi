@@ -1,15 +1,12 @@
 ﻿using Amazon.CloudFormation.Model;
-using Amazon.Runtime;
 using Framework;
 using Nuke.Common;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tools.DotNet;
 using Settings;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace Build.Targets
 {

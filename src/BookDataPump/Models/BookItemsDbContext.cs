@@ -1,11 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace UserDataPump.Models
+namespace BookDataPump.Models
 {
     public class BookItemsDbContext : DbContext
     {

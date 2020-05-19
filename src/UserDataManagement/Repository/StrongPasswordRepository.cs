@@ -1,12 +1,7 @@
 ﻿using LearnWebApi.Infrastructure;
 using LearnWebApi.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Serilog;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace LearnWebApi.Repository

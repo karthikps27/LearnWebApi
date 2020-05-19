@@ -1,12 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using UserDataPump.Models;
+using BookDataPump.Models;
 
-namespace UserDataPump.Framework
+namespace BookDataPump.Framework
 {
     public class JsonInputReader
     {
