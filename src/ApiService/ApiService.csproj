@@ -26,7 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BookDataPump\BookDataPump.csproj" />
-    <ProjectReference Include="..\UserDataPump\BookDataPump.csproj" />
+    <ProjectReference Include="..\BookDataService\BookDataService.csproj" />
   </ItemGroup>
 
 

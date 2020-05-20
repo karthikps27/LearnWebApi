@@ -9,6 +9,7 @@ using LearnWebApi.Repository;
 using LearnWebApi.Services;
 using LearnWebApi.Models;
 using BookDataPump.Models;
+using BookDataService.Service;
 
 namespace LearnWebApi
 {
@@ -27,8 +28,9 @@ namespace LearnWebApi
             services.AddSingleton<ILocalCache, LocalCache>()
             .AddTransient<IStrongPasswordRepository, StrongPasswordRepository>()
             .AddTransient<IStrongPasswordCheckService, StrongPasswordCheckService>()
+            .AddTransient<IBookDataFetchService, BookDataFetchService>()
             .AddDbContextPool<UserDataContext>(options => options.UseNpgsql(Configuration.GetSection("DBConnectionString").Value))
-            .AddEntityFrameworkNpgsql().AddDbContext<BookItemsDbContext>(options => options.UseNpgsql(Configuration.GetSection("DBConnectionString").Value))
+            .AddDbContext<BookItemsDbContext>(options => options.UseNpgsql(Configuration.GetSection("DBConnectionString").Value))
             .AddControllers();
         }
 
