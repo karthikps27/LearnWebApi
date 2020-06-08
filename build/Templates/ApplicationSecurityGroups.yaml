@@ -1,0 +1,25 @@
+﻿AWSTemplateFormatVersion: 2010-09-09
+Description: "Cloudformation Stack for Application Security Group"
+Outputs:
+  ApplicationSecurityGroup:
+    Value: !Ref "SecurityGroups"
+Parameters: 
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+  CidrIp:
+    Type: String
+Resources:
+  SecurityGroups:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Security group for LearnWebApi application"
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - CidrIp: !Ref CidrIp
+          FromPort: 5001
+          ToPort: 5001
+          IpProtocol: tcp
+        - CidrIp: !Ref CidrIp
+          FromPort: 80
+          ToPort: 80
+          IpProtocol: tcp

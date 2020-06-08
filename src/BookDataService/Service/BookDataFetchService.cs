@@ -10,6 +10,7 @@ namespace BookDataService.Service
     public interface IBookDataFetchService
     {
         BookItem GetBookData(string bookId);
+        List<BookItem> GetAllBooksData();
     }
     public class BookDataFetchService : IBookDataFetchService
     {
@@ -23,6 +24,11 @@ namespace BookDataService.Service
         {
             var bookData = _bookItemsDbContext.BookItems.Where(b => b.Id == bookId).ToList().First();
             return bookData;
+        }
+
+        public List<BookItem> GetAllBooksData()
+        {
+            return _bookItemsDbContext.BookItems.ToList();
         }
     }
 }

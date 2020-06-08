@@ -24,13 +24,17 @@ namespace ApiService.Controllers
         {
             try
             {
+                if(bookId == null)
+                {
+                    return _bookDataFetchService.GetAllBooksData();
+                }
                 return _bookDataFetchService.GetBookData(bookId);
             }
             catch(InvalidOperationException exception) when (exception.Message.Contains("Sequence contains no elements"))
             {
-                return StatusCode(StatusCodes.Status204NoContent);
+                return StatusCode(StatusCodes.Status204NoContent, new { Status = "Error while fetching user data", exception.Message });
             }
             
-        }
+        }        
     }
 }

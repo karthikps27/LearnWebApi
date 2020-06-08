@@ -27,7 +27,7 @@ namespace LearnWebApi.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error while adding user data", Message = e.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error while adding user data", e.Message });
             }
         }
 
@@ -41,7 +41,7 @@ namespace LearnWebApi.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error while fetching user data", Message = e.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error while fetching user data", e.Message });
             }
         }
 
@@ -55,7 +55,7 @@ namespace LearnWebApi.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error while updating user data", Message = e.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error while updating user data", e.Message });
             }
         }
 
@@ -69,7 +69,7 @@ namespace LearnWebApi.Controllers
             }
             catch(Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error while deleting user data", Message = e.Message });
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error while deleting user data", e.Message });
             }
         }
 

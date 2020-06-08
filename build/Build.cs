@@ -58,18 +58,51 @@ namespace Build.Targets
 
         public Target DeployApplication => _ => _
             .DependsOn(UploadBuilds)
+            .DependsOn(DeployDatabase)
             .Description("Deploy the application to fargate")
             .Executes(async () => 
             {
+                string applicationSecurityGroup = await AwsCloudformationUtils.GetStackOutputValue(EnvironmentSettings.ApplicationSecurityGroupStackName, "ApplicationSecurityGroup");
                 var parameters = new List<Parameter>
                 {
                     new Parameter { ParameterKey = "CidrIp", ParameterValue = EnvironmentSettings.CidrIp },
                     new Parameter { ParameterKey = "Image", ParameterValue = $"{EnvironmentSettings.ContainerRegistryAddress}/{EnvironmentSettings.RepositoryName}:latest" },
                     new Parameter { ParameterKey = "SubnetIds", ParameterValue = EnvironmentSettings.SubnetIds },
+                    new Parameter { ParameterKey = "SecurityGroups", ParameterValue = applicationSecurityGroup },
                     new Parameter { ParameterKey = "VpcId", ParameterValue = EnvironmentSettings.VpcId },
                 };
-                await AwsCloudformationUtils.CreateOrUpdateStack($"{EnvironmentSettings.RepositoryName}-Application",
+                await AwsCloudformationUtils.CreateOrUpdateStack(EnvironmentSettings.ApplicationStackName,
                     TemplatesDirectory / "Application.yaml", parameters);
+            });
+
+        public Target DeployApplicationSecurityGroup => _ => _
+            .Description("Deploy security groups for application")
+            .Executes(async () =>
+            {
+                var parameters = new List<Parameter>
+                {
+                    new Parameter { ParameterKey = "CidrIp", ParameterValue = EnvironmentSettings.CidrIp },                    
+                    new Parameter { ParameterKey = "VpcId", ParameterValue = EnvironmentSettings.VpcId },
+                };
+                await AwsCloudformationUtils.CreateOrUpdateStack(EnvironmentSettings.ApplicationSecurityGroupStackName,
+                    TemplatesDirectory / "ApplicationSecurityGroups.yaml", parameters);
+            });
+
+        public Target DeployDatabase => _ => _
+            .DependsOn(DeployApplicationSecurityGroup)
+            .Description("Cloudformation of DB server")
+            .Executes(async () =>
+            {
+                string applicationSecurityGroup = await AwsCloudformationUtils.GetStackOutputValue(EnvironmentSettings.ApplicationSecurityGroupStackName, "ApplicationSecurityGroup");
+                var parameters = new List<Parameter>
+                {                                        
+                    new Parameter { ParameterKey = "ApplicationSecurityGroupId", ParameterValue = applicationSecurityGroup },
+                    new Parameter { ParameterKey = "DBInstanceClass", ParameterValue = EnvironmentSettings.PostgresDBInstanceClass },
+                    new Parameter { ParameterKey = "DBName", ParameterValue = EnvironmentSettings.PostgresDBInstanceClass },
+                    new Parameter { ParameterKey = "VpcId", ParameterValue = EnvironmentSettings.VpcId },
+                };
+                await AwsCloudformationUtils.CreateOrUpdateStack(EnvironmentSettings.PostgresDBStackName,
+                    TemplatesDirectory / "PostgresDB.yaml", parameters);
             });
 
         public static int Main() => Execute<Build>(x => x.Compile);

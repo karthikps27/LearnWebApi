@@ -6,6 +6,6 @@ WORKDIR /app
 #Doing this as there no file difference seen with and without the Docker file
 
 COPY ./* ./
-RUN chmod +x UserDataManagement*
+RUN chmod +x ApiService*
 
-ENTRYPOINT ["dotnet","UserDataManagement.dll"]
+ENTRYPOINT ["dotnet","ApiService.dll"]

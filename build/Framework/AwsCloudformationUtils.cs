@@ -38,6 +38,12 @@ namespace Framework
             await WaitForStackStatus(stackName, StackStatus.CREATE_COMPLETE);
         }        
 
+        public static async Task<string> GetStackOutputValue(string stackName, string key)
+        {
+            var client = new AmazonCloudFormationClient();
+            DescribeStacksResponse describeStacksResponse = await client.DescribeStacksAsync(new DescribeStacksRequest { StackName = stackName });
+            return describeStacksResponse.Stacks.First().Outputs.First(output => output.OutputKey == key).OutputValue;
+        }
 
         public static async Task<StackStatus> GetStackStatus(string stackName)
         {
