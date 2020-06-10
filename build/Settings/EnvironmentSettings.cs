@@ -10,6 +10,9 @@ namespace Settings
         public string ContainerRegistryAddress { get; set; }
         public string ContainerRegistryAccessRole { get; set; }
         public string CidrIp { get; set; }
+        public string DbUsernameParameterPath { get; set; }
+        public string DbPasswordParameterPath { get; set; }        
+        public string PostgresDBName { get; set; }
         public string PostgresDBStackName { get; set; }
         public string PostgresDBInstanceClass { get; set; }
         public string RepositoryName { get; set; }

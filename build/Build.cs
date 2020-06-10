@@ -93,12 +93,17 @@ namespace Build.Targets
             .Description("Cloudformation of DB server")
             .Executes(async () =>
             {
+                string DbUsername = await AwsParameterStoreUtils.GetParameterValueAsync(EnvironmentSettings.DbUsernameParameterPath, false);
+                string DbPassword = await AwsParameterStoreUtils.GetParameterValueAsync(EnvironmentSettings.DbPasswordParameterPath, false);
+
                 string applicationSecurityGroup = await AwsCloudformationUtils.GetStackOutputValue(EnvironmentSettings.ApplicationSecurityGroupStackName, "ApplicationSecurityGroup");
                 var parameters = new List<Parameter>
                 {                                        
                     new Parameter { ParameterKey = "ApplicationSecurityGroupId", ParameterValue = applicationSecurityGroup },
                     new Parameter { ParameterKey = "DBInstanceClass", ParameterValue = EnvironmentSettings.PostgresDBInstanceClass },
-                    new Parameter { ParameterKey = "DBName", ParameterValue = EnvironmentSettings.PostgresDBInstanceClass },
+                    new Parameter { ParameterKey = "DBName", ParameterValue = EnvironmentSettings.PostgresDBName },
+                    new Parameter { ParameterKey = "DBUsername", ParameterValue = DbUsername },
+                    new Parameter { ParameterKey = "DBPassword", ParameterValue = DbPassword },
                     new Parameter { ParameterKey = "VpcId", ParameterValue = EnvironmentSettings.VpcId },
                 };
                 await AwsCloudformationUtils.CreateOrUpdateStack(EnvironmentSettings.PostgresDBStackName,

@@ -71,6 +71,20 @@ Resources:
             Principal:
               Service: ecs-tasks.amazonaws.com
             Action: 'sts:AssumeRole'
+      Policies:
+      - PolicyName: !Sub "${AWS::StackName}-ssm"
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+          - Action:
+            - "ssm:DescribeParameters"
+            Effect: "Allow"
+            Resource: "*"
+          - Action:
+            - "ssm:GetParameter"
+            - "ssm:GetParameters"
+            Effect: "Allow"
+            Resource: !Sub "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:*"         
   ExecutionRole:
     Type: AWS::IAM::Role
     Properties:
