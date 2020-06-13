@@ -13,8 +13,8 @@ namespace Settings
         public string DbUsernameParameterPath { get; set; }
         public string DbPasswordParameterPath { get; set; }        
         public string PostgresDBName { get; set; }
-        public string PostgresDBStackName { get; set; }
-        public string PostgresDBInstanceClass { get; set; }
+        public string SQLServerDBStackName { get; set; }
+        public string SQLServerDBInstanceClass { get; set; }
         public string RepositoryName { get; set; }
         public string SubnetIds { get; set; }
         public string VpcId { get; set; }

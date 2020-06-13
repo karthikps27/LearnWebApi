@@ -63,12 +63,19 @@ namespace Build.Targets
             .Executes(async () => 
             {
                 string applicationSecurityGroup = await AwsCloudformationUtils.GetStackOutputValue(EnvironmentSettings.ApplicationSecurityGroupStackName, "ApplicationSecurityGroup");
+                string DbUsername = await AwsParameterStoreUtils.GetParameterValueAsync(EnvironmentSettings.DbUsernameParameterPath, false);
+                string DbPassword = await AwsParameterStoreUtils.GetParameterValueAsync(EnvironmentSettings.DbPasswordParameterPath, false);
+                string SQLServerDBUrl = await AwsCloudformationUtils.GetStackOutputValue(EnvironmentSettings.SQLServerDBStackName, "SQLDatabaseEndpoint");
+
                 var parameters = new List<Parameter>
                 {
                     new Parameter { ParameterKey = "CidrIp", ParameterValue = EnvironmentSettings.CidrIp },
                     new Parameter { ParameterKey = "Image", ParameterValue = $"{EnvironmentSettings.ContainerRegistryAddress}/{EnvironmentSettings.RepositoryName}:latest" },
                     new Parameter { ParameterKey = "SubnetIds", ParameterValue = EnvironmentSettings.SubnetIds },
                     new Parameter { ParameterKey = "SecurityGroups", ParameterValue = applicationSecurityGroup },
+                    new Parameter { ParameterKey = "SQLServerDBPassword", ParameterValue = DbPassword },
+                    new Parameter { ParameterKey = "SQLServerDBUrl", ParameterValue = SQLServerDBUrl },
+                    new Parameter { ParameterKey = "SQLServerDBUsername", ParameterValue = DbUsername },
                     new Parameter { ParameterKey = "VpcId", ParameterValue = EnvironmentSettings.VpcId },
                 };
                 await AwsCloudformationUtils.CreateOrUpdateStack(EnvironmentSettings.ApplicationStackName,
@@ -100,14 +107,14 @@ namespace Build.Targets
                 var parameters = new List<Parameter>
                 {                                        
                     new Parameter { ParameterKey = "ApplicationSecurityGroupId", ParameterValue = applicationSecurityGroup },
-                    new Parameter { ParameterKey = "DBInstanceClass", ParameterValue = EnvironmentSettings.PostgresDBInstanceClass },
+                    new Parameter { ParameterKey = "DBInstanceClass", ParameterValue = EnvironmentSettings.SQLServerDBInstanceClass },
                     new Parameter { ParameterKey = "DBName", ParameterValue = EnvironmentSettings.PostgresDBName },
                     new Parameter { ParameterKey = "DBUsername", ParameterValue = DbUsername },
                     new Parameter { ParameterKey = "DBPassword", ParameterValue = DbPassword },
                     new Parameter { ParameterKey = "VpcId", ParameterValue = EnvironmentSettings.VpcId },
                 };
-                await AwsCloudformationUtils.CreateOrUpdateStack(EnvironmentSettings.PostgresDBStackName,
-                    TemplatesDirectory / "PostgresDB.yaml", parameters);
+                await AwsCloudformationUtils.CreateOrUpdateStack(EnvironmentSettings.SQLServerDBStackName,
+                    TemplatesDirectory / "sqlserverDB.yaml", parameters);
             });
 
         public static int Main() => Execute<Build>(x => x.Compile);

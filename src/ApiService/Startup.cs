@@ -31,6 +31,7 @@ namespace LearnWebApi
             .AddTransient<IStrongPasswordRepository, StrongPasswordRepository>()
             .AddTransient<IStrongPasswordCheckService, StrongPasswordCheckService>()
             .AddTransient<IBookDataFetchService, BookDataFetchService>()
+            .AddLogging()
             //.AddDbContextPool<UserDataContext>(options => options.UseNpgsql(Configuration.GetSection("DBConnectionString").Value))
             //.AddDbContext<BookItemsDbContext>(options => options.UseNpgsql(Configuration.GetSection("DBConnectionString").Value))
             .AddDbContext<UserDataContext>()

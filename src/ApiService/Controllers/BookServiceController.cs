@@ -1,10 +1,8 @@
 ﻿using BookDataService.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ApiService.Controllers
 {
@@ -13,10 +11,12 @@ namespace ApiService.Controllers
     public class BookServiceController : ControllerBase
     {
         private readonly IBookDataFetchService _bookDataFetchService;
+        private readonly ILogger _logger;
 
-        public BookServiceController(IBookDataFetchService bookDataFetchService)
+        public BookServiceController(IBookDataFetchService bookDataFetchService, ILogger<BookServiceController> logger)
         {
             _bookDataFetchService = bookDataFetchService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -28,13 +28,14 @@ namespace ApiService.Controllers
                 {
                     return _bookDataFetchService.GetAllBooksData();
                 }
-                return _bookDataFetchService.GetBookData(bookId);
+                _logger.LogInformation($"Request for viewing bookdata received with bookId: {bookId}");
+                return _bookDataFetchService.GetBookData(bookId);                
             }
             catch(InvalidOperationException exception) when (exception.Message.Contains("Sequence contains no elements"))
             {
-                return StatusCode(StatusCodes.Status204NoContent, new { Status = "Error while fetching user data", exception.Message });
-            }
-            
+                _logger.LogError($"Error with Request for viewing bookdata for bookId: {bookId}");
+                return StatusCode(StatusCodes.Status204NoContent, new { Status = "Error while fetching user data", exception.Message });                
+            }            
         }        
     }
 }

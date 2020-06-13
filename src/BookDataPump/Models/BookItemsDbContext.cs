@@ -21,11 +21,16 @@ namespace BookDataPump.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseNpgsql(_configuration.GetSection("DBConnectionString").Value);
-            Task<string> usernameTask = _parameterStore.GetParameterValueAsync(_configuration.GetSection("usernameParameterPath").Value, false);
-            Task<string> passwordTask = _parameterStore.GetParameterValueAsync(_configuration.GetSection("passwordParameterPath").Value, false);
+            optionsBuilder.UseNpgsql(_configuration.GetSection("DBConnectionString").Value);
+            
+            //Task<string> usernameTask = _parameterStore.GetParameterValueAsync(_configuration.GetSection("usernameParameterPath").Value, false);
+            //Task<string> passwordTask = _parameterStore.GetParameterValueAsync(_configuration.GetSection("passwordParameterPath").Value, false);
 
-            optionsBuilder.UseNpgsql($"Host=localhost;Database=Books;Username={usernameTask.Result}Password={passwordTask.Result}");
+            /*string sqlServerDBUrl = _configuration["sqlServerDBUrl"];
+            string sqlServerDBUsername = _configuration["sqlServerDBUsername"];
+            string sqlServerDBPassword = _configuration["sqlServerDBPassword"];*/
+
+            //optionsBuilder.UseNpgsql($"Server={sqlServerDBUrl};Database=Books;User Id={sqlServerDBUsername}Password={sqlServerDBPassword}");
         }
 
         public DbSet<BookItem> BookItems { get; set; }

@@ -9,17 +9,21 @@ using System.Threading.Tasks;
 using BookDataPump.Models;
 using System.Collections.Generic;
 using BookDataPump.Migrations;
+using Microsoft.Extensions.Logging;
+using Amazon.S3;
 
 namespace BookDataPump.Framework
 {
     public class InputDataPoller : IHostedService
     {
+        private readonly ILogger _logger;
         private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly IConfiguration _configuration;
-        public InputDataPoller(IServiceScopeFactory serviceScopeFactory, IConfiguration configuration)
+        public InputDataPoller(IServiceScopeFactory serviceScopeFactory, IConfiguration configuration, ILogger<InputDataPoller> logger)
         {
             _serviceScopeFactory = serviceScopeFactory;
             _configuration = configuration;
+            _logger = logger;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -31,20 +35,31 @@ namespace BookDataPump.Framework
                 var bookItemsDbContext = scope.ServiceProvider.GetRequiredService<BookItemsDbContext>();
                 try
                 {
-                    streamReader = new StreamReader(Path.Combine(_configuration.GetSection("ResouceDirectory").Value, _configuration.GetSection("ResourceFilename").Value));
-                    var jsonInputReader = new JsonInputReader(streamReader);
+                    string results = await AwsS3Bucket.ListAllFilesInS3BucketAsync();
+                    _logger.LogInformation($"S3 Bucket Results: {results}");
 
-                    await AddOrUpdateEntity(bookItemsDbContext, jsonInputReader.GetAllDataFromJsonFile());
+                    //streamReader = new StreamReader(Path.Combine(_configuration.GetSection("ResouceDirectory").Value, _configuration.GetSection("ResourceFilename").Value));                   
+                    Stream stream = await AwsS3Bucket.ReadObjectDataAsync();
+                    using (streamReader = new StreamReader(stream))
+                    {
+                        var jsonInputReader = new JsonInputReader(streamReader);
+                        await AddOrUpdateEntity(bookItemsDbContext, jsonInputReader.GetAllDataFromJsonFile());
+                    }
 
-                    streamReader.Close();
                     DirectoryService.MoveJsonToDoneDirectory(
                         _configuration.GetSection("ResourceFilename").Value,
                         _configuration.GetSection("ResouceDirectory").Value,
                         _configuration.GetSection("ReadResourceDirectory").Value);
+
+                    _logger.LogInformation("Data from resources file is read and the DB has been updated");                    
                 }
                 catch(FileNotFoundException fe)
                 {
-
+                    _logger.LogInformation("Data resources file not found in the location." + fe.Message);
+                }
+                catch (AmazonS3Exception e)
+                {
+                    _logger.LogError("Error reading file from S3 bucket" + e.Message);
                 }
                 await Task.Delay(TimeSpan.FromSeconds(10));
             }
@@ -59,11 +74,13 @@ namespace BookDataPump.Framework
                     var bookData = (from book in bookItemsDbContext.BookItems where book.Id == bookItem.Id select book).ToList().First();
                     bookData = bookItem;
                     await bookItemsDbContext.SaveChangesAsync();
+                    _logger.LogInformation("New DB record created from the data resources file");
                 }
                 catch (InvalidOperationException exception) when (exception.Message.Contains("Sequence contains no elements"))
                 {
                     bookItemsDbContext.BookItems.Add(bookItem);
                     await bookItemsDbContext.SaveChangesAsync();
+                    _logger.LogInformation("DB records updated from the data resources file");
                 }
             }                                
         }

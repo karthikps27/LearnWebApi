@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -11,12 +11,14 @@
 
   <ItemGroup>
     <PackageReference Include="AWSSDK.CloudFormation" Version="3.3.104.41" />
-    <PackageReference Include="AWSSDK.Core" Version="3.3.106.17" />
+    <PackageReference Include="AWSSDK.Core" Version="3.3.107.9" />
     <PackageReference Include="AWSSDK.ECR" Version="3.3.104" />
     <PackageReference Include="AWSSDK.SecurityToken" Version="3.3.104.67" />
+    <PackageReference Include="AWSSDK.SimpleSystemsManagement" Version="3.3.125.2" />
     <PackageReference Include="dbup-core" Version="4.3.1" />
     <PackageReference Include="dbup-postgresql" Version="4.3.0" />
     <PackageReference Include="Docker.DotNet" Version="3.125.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.5" />
     <PackageReference Include="Nuke.Common" Version="0.24.10" />
     <PackageDownload Include="GitVersion.Tool" Version="[5.1.1]" />
   </ItemGroup>

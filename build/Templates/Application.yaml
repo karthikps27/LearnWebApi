@@ -11,6 +11,12 @@ Parameters:
     Type: List<String>
   SecurityGroups:
     Type: String
+  SQLServerDBPassword:
+    Type: String
+  SQLServerDBUrl:
+    Type: String
+  SQLServerDBUsername:
+    Type: String
 Resources:  
   EcsCluster:
     Type: AWS::ECS::Cluster
@@ -31,6 +37,13 @@ Resources:
       ContainerDefinitions:
         - Name: "LearnWebApi-ContainerDefinition"
           Image: !Ref "Image"
+          Environment:
+            - Name: "sqlServerDBUrl"
+              Value: !Ref SQLServerDBUrl
+            - Name: "sqlServerDBUsername"
+              Value: !Ref SQLServerDBUsername
+            - Name: "sqlServerDBPassword"
+              Value: !Ref SQLServerDBPassword
           PortMappings:
             - ContainerPort: 80
             - ContainerPort: 5001
