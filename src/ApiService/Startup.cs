@@ -11,6 +11,7 @@ using LearnWebApi.Models;
 using BookDataPump.Models;
 using BookDataService.Service;
 using BookDataPump.Framework;
+using BookDataPump;
 
 namespace LearnWebApi
 {
@@ -33,7 +34,8 @@ namespace LearnWebApi
             .AddTransient<IBookDataFetchService, BookDataFetchService>()
             .AddLogging()
             .AddDbContextPool<UserDataContext>(options => options.UseNpgsql(Configuration.GetSection("DBConnectionString").Value))
-            .AddDbContext<BookItemsDbContext>(options => options.UseNpgsql(Configuration.GetSection("DBConnectionString").Value))
+            //.AddDbContext<BookItemsDbContext>(options => options.UseNpgsql(Configuration.GetSection("DBConnectionString").Value))
+            .AddBookDataDBContext(Configuration)
             .AddDbContext<UserDataContext>()
             .AddDbContext<BookItemsDbContext>()
             .AddControllers();

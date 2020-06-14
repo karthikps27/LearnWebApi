@@ -23,10 +23,6 @@ namespace BookDataPump.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseNpgsql(_configuration.GetSection("DBConnectionString").Value);
-
-            Task<string> usernameTask = _parameterStore.GetParameterValueAsync(_configuration.GetSection("usernameParameterPath").Value, false);
-            Task<string> passwordTask = _parameterStore.GetParameterValueAsync(_configuration.GetSection("passwordParameterPath").Value, false);
-
             string DBServerUrl = _configuration["DBServerUrl"];
             string DBUsername = _configuration["DBUsername"];
             string DBPassword = _configuration["DBPassword"];
