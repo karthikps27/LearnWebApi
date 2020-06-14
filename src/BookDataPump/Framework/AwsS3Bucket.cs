@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -45,6 +46,24 @@ namespace BookDataPump.Framework
             {
                 throw e;
             }
+        }
+
+        public static async Task<HttpStatusCode> DeleteObjectDataAsync()
+        {
+            try
+            {
+                DeleteObjectRequest deleteRequest = new DeleteObjectRequest
+                {
+                    BucketName = "book-data-resources",
+                    Key = "BookResponse.json"
+                };
+                DeleteObjectResponse deleteObjectResponse = await client.DeleteObjectAsync(deleteRequest);
+                return deleteObjectResponse.HttpStatusCode;
+            }
+            catch (AmazonS3Exception e)
+            {
+                throw e;
+            }            
         }
     }
 }

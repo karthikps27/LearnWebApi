@@ -11,11 +11,11 @@ Parameters:
     Type: List<String>
   SecurityGroups:
     Type: String
-  SQLServerDBPassword:
+  DBPassword:
     Type: String
-  SQLServerDBUrl:
+  DBServerUrl:
     Type: String
-  SQLServerDBUsername:
+  DBUsername:
     Type: String
 Resources:  
   EcsCluster:
@@ -38,12 +38,12 @@ Resources:
         - Name: "LearnWebApi-ContainerDefinition"
           Image: !Ref "Image"
           Environment:
-            - Name: "sqlServerDBUrl"
-              Value: !Ref SQLServerDBUrl
-            - Name: "sqlServerDBUsername"
-              Value: !Ref SQLServerDBUsername
-            - Name: "sqlServerDBPassword"
-              Value: !Ref SQLServerDBPassword
+            - Name: "DBServerUrl"
+              Value: !Ref DBServerUrl
+            - Name: "DBUsername"
+              Value: !Ref DBUsername
+            - Name: "DBPassword"
+              Value: !Ref DBPassword
           PortMappings:
             - ContainerPort: 80
             - ContainerPort: 5001
@@ -97,7 +97,7 @@ Resources:
             - "ssm:GetParameter"
             - "ssm:GetParameters"
             Effect: "Allow"
-            Resource: !Sub "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:*"         
+            Resource: !Sub "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:*"
   ExecutionRole:
     Type: AWS::IAM::Role
     Properties:

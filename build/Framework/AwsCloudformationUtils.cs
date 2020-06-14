@@ -94,6 +94,8 @@ namespace Framework
                     Parameters = parameters,
                     Capabilities = DefaultCapabilities,
                 });
+
+                await WaitForStackStatus(stackName, StackStatus.UPDATE_COMPLETE);
             }
             catch(AmazonCloudFormationException exc) when (exc.Message.Contains("No updates are to be performed"))
             {

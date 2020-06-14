@@ -10,8 +10,9 @@ namespace BookDataPump.Models
     {
         private readonly IConfiguration _configuration;
         private readonly ParameterStore _parameterStore;
-        public BookItemsDbContext(DbContextOptions<BookItemsDbContext> options, IConfiguration configuration) : base(options) {
+        public BookItemsDbContext(DbContextOptions<BookItemsDbContext> options, IConfiguration configuration, ParameterStore parameterStore) : base(options) {
             _configuration = configuration;
+            _parameterStore = parameterStore;
         }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -21,16 +22,16 @@ namespace BookDataPump.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(_configuration.GetSection("DBConnectionString").Value);
-            
-            //Task<string> usernameTask = _parameterStore.GetParameterValueAsync(_configuration.GetSection("usernameParameterPath").Value, false);
-            //Task<string> passwordTask = _parameterStore.GetParameterValueAsync(_configuration.GetSection("passwordParameterPath").Value, false);
+            //optionsBuilder.UseNpgsql(_configuration.GetSection("DBConnectionString").Value);
 
-            /*string sqlServerDBUrl = _configuration["sqlServerDBUrl"];
-            string sqlServerDBUsername = _configuration["sqlServerDBUsername"];
-            string sqlServerDBPassword = _configuration["sqlServerDBPassword"];*/
+            Task<string> usernameTask = _parameterStore.GetParameterValueAsync(_configuration.GetSection("usernameParameterPath").Value, false);
+            Task<string> passwordTask = _parameterStore.GetParameterValueAsync(_configuration.GetSection("passwordParameterPath").Value, false);
 
-            //optionsBuilder.UseNpgsql($"Server={sqlServerDBUrl};Database=Books;User Id={sqlServerDBUsername}Password={sqlServerDBPassword}");
+            string DBServerUrl = _configuration["DBServerUrl"];
+            string DBUsername = _configuration["DBUsername"];
+            string DBPassword = _configuration["DBPassword"];
+
+            optionsBuilder.UseNpgsql($"Server={DBServerUrl};Database=Books;User Id={DBUsername}Password={DBPassword}");
         }
 
         public DbSet<BookItem> BookItems { get; set; }

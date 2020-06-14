@@ -22,10 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="newmodels\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BookDataPump\BookDataPump.csproj" />
     <ProjectReference Include="..\BookDataService\BookDataService.csproj" />
   </ItemGroup>

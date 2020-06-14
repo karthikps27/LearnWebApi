@@ -32,20 +32,22 @@ namespace LearnWebApi
             .AddTransient<IStrongPasswordCheckService, StrongPasswordCheckService>()
             .AddTransient<IBookDataFetchService, BookDataFetchService>()
             .AddLogging()
-            //.AddDbContextPool<UserDataContext>(options => options.UseNpgsql(Configuration.GetSection("DBConnectionString").Value))
-            //.AddDbContext<BookItemsDbContext>(options => options.UseNpgsql(Configuration.GetSection("DBConnectionString").Value))
+            .AddDbContextPool<UserDataContext>(options => options.UseNpgsql(Configuration.GetSection("DBConnectionString").Value))
+            .AddDbContext<BookItemsDbContext>(options => options.UseNpgsql(Configuration.GetSection("DBConnectionString").Value))
             .AddDbContext<UserDataContext>()
             .AddDbContext<BookItemsDbContext>()
             .AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserDataContext dbContext)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            dbContext.Database.Migrate();
 
             app.UseHttpsRedirection();
 

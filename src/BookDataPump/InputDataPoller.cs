@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using BookDataPump.Migrations;
 using Microsoft.Extensions.Logging;
 using Amazon.S3;
+using System.Net;
 
 namespace BookDataPump.Framework
 {
@@ -51,7 +52,9 @@ namespace BookDataPump.Framework
                         _configuration.GetSection("ResouceDirectory").Value,
                         _configuration.GetSection("ReadResourceDirectory").Value);
 
-                    _logger.LogInformation("Data from resources file is read and the DB has been updated");                    
+                    _logger.LogInformation("Data from resources file is read and the DB has been updated");
+                    HttpStatusCode httpStatusCode = await AwsS3Bucket.DeleteObjectDataAsync();
+                    _logger.LogInformation($"Resource file removal from S3 status: {httpStatusCode}");
                 }
                 catch(FileNotFoundException fe)
                 {
