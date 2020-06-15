@@ -1,0 +1,63 @@
+﻿AWSTemplateFormatVersion: 2010-09-09
+Description: "SQLServerDB Stack for fargate instance of LearnWebApi"
+Outputs:
+  SQLDatabaseEndpoint:
+    Description: "Database endpoint"
+    Value: !Sub "${DBInstance.Endpoint.Address}"
+  SQLDatabasePort:
+    Description: "Database endpoint"
+    Value: !Sub "${DBInstance.Endpoint.Port}"
+Parameters: 
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+  ApplicationSecurityGroupId:
+    Type: String
+  DBName:
+    Type: String
+  DBInstanceClass:
+    Type: String
+  DBUsername:
+    Type: String
+  DBPassword:
+    Type: String
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+    - Label:
+        default: SQL Instance name, master username and password
+      Parameters:
+        - SqlServerInstanceName
+        - DatabaseUsername
+        - DatabasePassword
+      ParameterLabels:
+        SqlServerInstanceName:
+            default: Instance name
+        DatabaseUsername:
+            default: Master user name
+        DatabasePassword:
+            default: Password
+Resources:
+  DatabaseSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: "Security group for database"
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 1433
+        ToPort: 1433
+        SourceSecurityGroupId: !Ref ApplicationSecurityGroupId
+  DBInstance:
+    Type: 'AWS::RDS::DBInstance'
+    Properties:
+      AllocatedStorage: 20
+      AllowMajorVersionUpgrade: false
+      AutoMinorVersionUpgrade: true
+      LicenseModel: license-included
+      DBInstanceClass: "db.t2.micro"
+      Engine: sqlserver-ex
+      EngineVersion: 14.00.3281.6.v1
+      MasterUsername: !Ref DBUsername
+      MasterUserPassword: !Ref DBPassword
+      VPCSecurityGroups:
+        - !Ref DatabaseSecurityGroup

@@ -7,3 +7,4 @@ publish/
 \.tmp
 *.log
 *.user
+build/Settings/GlobalSettings.cs

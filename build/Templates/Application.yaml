@@ -1,5 +1,5 @@
 ﻿AWSTemplateFormatVersion: 2010-09-09
-Description: "cCloudformation Stack for fargate instance of LearnWebApi"
+Description: "Cloudformation Stack for fargate instance of LearnWebApi"
 Parameters: 
   VpcId:
     Type: AWS::EC2::VPC::Id
@@ -9,21 +9,15 @@ Parameters:
     Type: String
   SubnetIds:
     Type: List<String>
-Resources:
   SecurityGroups:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: "Security group for LearnWebApi application"
-      VpcId: !Ref VpcId
-      SecurityGroupIngress:
-        - CidrIp: !Ref CidrIp
-          FromPort: 5001
-          ToPort: 5001
-          IpProtocol: tcp
-        - CidrIp: !Ref CidrIp
-          FromPort: 80
-          ToPort: 80
-          IpProtocol: tcp
+    Type: String
+  DBPassword:
+    Type: String
+  DBServerUrl:
+    Type: String
+  DBUsername:
+    Type: String
+Resources:  
   EcsCluster:
     Type: AWS::ECS::Cluster
     Properties:
@@ -43,6 +37,13 @@ Resources:
       ContainerDefinitions:
         - Name: "LearnWebApi-ContainerDefinition"
           Image: !Ref "Image"
+          Environment:
+            - Name: "DBServerUrl"
+              Value: !Ref DBServerUrl
+            - Name: "DBUsername"
+              Value: !Ref DBUsername
+            - Name: "DBPassword"
+              Value: !Ref DBPassword
           PortMappings:
             - ContainerPort: 80
             - ContainerPort: 5001
@@ -83,6 +84,20 @@ Resources:
             Principal:
               Service: ecs-tasks.amazonaws.com
             Action: 'sts:AssumeRole'
+      Policies:
+      - PolicyName: !Sub "${AWS::StackName}-ssm"
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+          - Action:
+            - "ssm:DescribeParameters"
+            Effect: "Allow"
+            Resource: "*"
+          - Action:
+            - "ssm:GetParameter"
+            - "ssm:GetParameters"
+            Effect: "Allow"
+            Resource: !Sub "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:*"
   ExecutionRole:
     Type: AWS::IAM::Role
     Properties:

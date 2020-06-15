@@ -1,0 +1,57 @@
+﻿AWSTemplateFormatVersion: 2010-09-09
+Parameters: 
+  SourceS3BucketName:
+    Type: String
+  ArchiveS3BucketName:
+    Type: String
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref "SourceS3BucketName"
+    DeletionPolicy: Retain
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref "S3Bucket"
+      PolicyDocument:
+        Id: MyPolicy
+        Version: 2012-10-17
+        Statement:
+          - Action:
+              - "s3:ListBucket"
+            Effect: Allow
+            Principal: '*'
+            Resource: !GetAtt "S3Bucket.Arn"
+          - Action:
+              - "s3:GetObject"
+              - "s3:PutObject"
+              - "s3:DeleteObject"
+            Effect: "Allow"
+            Principal: '*'
+            Resource: !Sub "${S3Bucket.Arn}/*"
+  ArchiveS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref "ArchiveS3BucketName"
+    DeletionPolicy: Retain
+  ArchiveBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref "ArchiveS3Bucket"
+      PolicyDocument:
+        Id: MyPolicy
+        Version: 2012-10-17
+        Statement:
+          - Action:
+              - "s3:ListBucket"
+            Effect: Allow
+            Principal: '*'
+            Resource: !GetAtt "ArchiveS3Bucket.Arn"
+          - Action:
+              - "s3:GetObject"
+              - "s3:PutObject"
+              - "s3:DeleteObject"
+            Effect: "Allow"
+            Principal: '*'
+            Resource: !Sub "${ArchiveS3Bucket.Arn}/*"

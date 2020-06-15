@@ -1,11 +1,9 @@
 ﻿using Amazon.CloudFormation;
 using Amazon.CloudFormation.Model;
-using Amazon.SecurityToken.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Framework
@@ -40,6 +38,12 @@ namespace Framework
             await WaitForStackStatus(stackName, StackStatus.CREATE_COMPLETE);
         }        
 
+        public static async Task<string> GetStackOutputValue(string stackName, string key)
+        {
+            var client = new AmazonCloudFormationClient();
+            DescribeStacksResponse describeStacksResponse = await client.DescribeStacksAsync(new DescribeStacksRequest { StackName = stackName });
+            return describeStacksResponse.Stacks.First().Outputs.First(output => output.OutputKey == key).OutputValue;
+        }
 
         public static async Task<StackStatus> GetStackStatus(string stackName)
         {
@@ -90,6 +94,8 @@ namespace Framework
                     Parameters = parameters,
                     Capabilities = DefaultCapabilities,
                 });
+
+                await WaitForStackStatus(stackName, StackStatus.UPDATE_COMPLETE);
             }
             catch(AmazonCloudFormationException exc) when (exc.Message.Contains("No updates are to be performed"))
             {
