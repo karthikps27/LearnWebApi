@@ -27,7 +27,7 @@ namespace BookDataPump.Models
             string DBUsername = _configuration["DBUsername"];
             string DBPassword = _configuration["DBPassword"];
 
-            optionsBuilder.UseNpgsql($"Server={DBServerUrl};Database=Books;User Id={DBUsername}Password={DBPassword}");
+            optionsBuilder.UseNpgsql($"Server={DBServerUrl};Database=Books;Username={DBUsername};Password={DBPassword}");
         }
 
         public DbSet<BookItem> BookItems { get; set; }

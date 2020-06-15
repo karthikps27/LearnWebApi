@@ -18,6 +18,7 @@ namespace Settings
         public string RepositoryName { get; set; }
         public string S3BucketStackName { get; set; }
         public string S3BucketName { get; set; }
+        public string S3ArchiveBucketName { get; set; }
         public string SubnetIds { get; set; }
         public string VpcId { get; set; }
 

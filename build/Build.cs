@@ -124,7 +124,8 @@ namespace Build.Targets
             {
                 var parameters = new List<Parameter>
                 {
-                    new Parameter { ParameterKey = "S3BucketName", ParameterValue = EnvironmentSettings.S3BucketName }
+                    new Parameter { ParameterKey = "SourceS3BucketName", ParameterValue = EnvironmentSettings.S3BucketName },
+                    new Parameter { ParameterKey = "ArchiveS3BucketName", ParameterValue = EnvironmentSettings.S3ArchiveBucketName }
                 };
                 await AwsCloudformationUtils.CreateOrUpdateStack(EnvironmentSettings.S3BucketStackName,
                     TemplatesDirectory / "S3Bucket.yaml", parameters);

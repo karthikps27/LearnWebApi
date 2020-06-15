@@ -13,11 +13,16 @@ namespace BookDataPump.Framework
             _streamReader = streamReader;
         }
 
-        public List<BookItem> GetAllDataFromJsonFile()
+        public BookApiResponse GetAllDataFromJsonFile()
         {
             string jsonData = _streamReader.ReadToEnd();
             BookApiResponse bookApiResponse = JsonConvert.DeserializeObject<BookApiResponse>(jsonData);
-            return bookApiResponse.Items;
+            return bookApiResponse;
+        }
+
+        public string GetAllDataFromJsonFileSerialized()
+        {
+            return _streamReader.ReadToEnd();
         }
     }
 }

@@ -13,13 +13,33 @@ namespace BookDataPump.Framework
     public static class AwsS3Bucket
     {
         private static AmazonS3Client client;
-        public static async Task<string> ListAllFilesInS3BucketAsync()
+
+        public static async Task<HttpStatusCode> DeleteObjectDataAsync(string bucketName, string key)
+        {
+            client = new AmazonS3Client();
+            try
+            {
+                DeleteObjectRequest deleteRequest = new DeleteObjectRequest
+                {
+                    BucketName = bucketName,
+                    Key = key
+                };
+                DeleteObjectResponse deleteObjectResponse = await client.DeleteObjectAsync(deleteRequest);
+                return deleteObjectResponse.HttpStatusCode;
+            }
+            catch (AmazonS3Exception e)
+            {
+                throw new AmazonS3Exception(e);
+            }
+        }
+
+        public static async Task<string> ListAllFilesInS3BucketAsync(string bucketName)
         {
             string results = null;
             client = new AmazonS3Client();
             ListObjectsRequest request = new ListObjectsRequest
             {
-                BucketName = "book-data-resources"
+                BucketName = bucketName
             };
 
             ListObjectsResponse listObjectsResponse = await client.ListObjectsAsync(request);
@@ -30,40 +50,47 @@ namespace BookDataPump.Framework
             return results;
         }
 
-        public static async Task<Stream> ReadObjectDataAsync()
+        public static async Task<HttpStatusCode> PutTextFileToS3BucketAsync(string key, string contents, string bucketName)
+        {
+            PutObjectResponse putObjectResponse;
+            try
+            {
+                using (client = new AmazonS3Client())
+                {
+                    PutObjectRequest putObjectRequest = new PutObjectRequest
+                    {
+                        BucketName = bucketName,
+                        ContentBody = contents,
+                        ContentType = "text/plain",                        
+                        Key = key
+                    };
+
+                    putObjectResponse = await client.PutObjectAsync(putObjectRequest);
+                }
+                return putObjectResponse.HttpStatusCode;
+            }
+            catch (AmazonS3Exception e)
+            {
+                throw new AmazonS3Exception("Error while putting text file to S3 bucket", e);
+            }            
+        }
+
+        public static async Task<Stream> ReadObjectDataAsync(string bucketName, string key)
         {
             try
             {
                 GetObjectRequest request = new GetObjectRequest
                 {
-                    BucketName = "book-data-resources",
-                    Key = "BookResponse.json"
+                    BucketName = bucketName,
+                    Key = key
                 };
                 GetObjectResponse response = await client.GetObjectAsync(request);
                 return response.ResponseStream;
             }
             catch (AmazonS3Exception e)
             {
-                throw e;
+                throw new AmazonS3Exception("Error while reading text file from S3 bucket", e);
             }
-        }
-
-        public static async Task<HttpStatusCode> DeleteObjectDataAsync()
-        {
-            try
-            {
-                DeleteObjectRequest deleteRequest = new DeleteObjectRequest
-                {
-                    BucketName = "book-data-resources",
-                    Key = "BookResponse.json"
-                };
-                DeleteObjectResponse deleteObjectResponse = await client.DeleteObjectAsync(deleteRequest);
-                return deleteObjectResponse.HttpStatusCode;
-            }
-            catch (AmazonS3Exception e)
-            {
-                throw e;
-            }            
-        }
+        }        
     }
 }

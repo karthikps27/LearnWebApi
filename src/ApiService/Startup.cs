@@ -42,7 +42,7 @@ namespace LearnWebApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserDataContext dbContext)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, BookItemsDbContext dbContext)
         {
             if (env.IsDevelopment())
             {

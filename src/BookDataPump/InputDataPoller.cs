@@ -8,10 +8,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using BookDataPump.Models;
 using System.Collections.Generic;
-using BookDataPump.Migrations;
 using Microsoft.Extensions.Logging;
 using Amazon.S3;
 using System.Net;
+using BookDataPump.Configuration;
+using Newtonsoft.Json;
 
 namespace BookDataPump.Framework
 {
@@ -36,33 +37,37 @@ namespace BookDataPump.Framework
                 var bookItemsDbContext = scope.ServiceProvider.GetRequiredService<BookItemsDbContext>();
                 try
                 {
-                    string results = await AwsS3Bucket.ListAllFilesInS3BucketAsync();
+                    string results = await AwsS3Bucket.ListAllFilesInS3BucketAsync(S3Settings.S3SourceBucketName);
                     _logger.LogInformation($"S3 Bucket Results: {results}");
 
-                    //streamReader = new StreamReader(Path.Combine(_configuration.GetSection("ResouceDirectory").Value, _configuration.GetSection("ResourceFilename").Value));                   
-                    Stream stream = await AwsS3Bucket.ReadObjectDataAsync();
+                    Stream stream = await AwsS3Bucket.ReadObjectDataAsync(S3Settings.S3SourceBucketName, S3Settings.InputDataFilename);
                     using (streamReader = new StreamReader(stream))
                     {
                         var jsonInputReader = new JsonInputReader(streamReader);
-                        await AddOrUpdateEntity(bookItemsDbContext, jsonInputReader.GetAllDataFromJsonFile());
-                    }
+                        string bookDataJson = jsonInputReader.GetAllDataFromJsonFileSerialized();
+                        await AddOrUpdateEntity(bookItemsDbContext, JsonConvert.DeserializeObject<BookApiResponse>(bookDataJson).Items);
 
-                    DirectoryService.MoveJsonToDoneDirectory(
-                        _configuration.GetSection("ResourceFilename").Value,
-                        _configuration.GetSection("ResouceDirectory").Value,
-                        _configuration.GetSection("ReadResourceDirectory").Value);
+                        await AwsS3Bucket.PutTextFileToS3BucketAsync(S3Settings.ArchiveFilename, bookDataJson, S3Settings.S3ArchiveBucketName);
+                        _logger.LogInformation("Data from resources file is read and the DB has been updated");
 
-                    _logger.LogInformation("Data from resources file is read and the DB has been updated");
-                    HttpStatusCode httpStatusCode = await AwsS3Bucket.DeleteObjectDataAsync();
-                    _logger.LogInformation($"Resource file removal from S3 status: {httpStatusCode}");
+                        HttpStatusCode httpStatusCode = await AwsS3Bucket.DeleteObjectDataAsync(S3Settings.S3SourceBucketName, S3Settings.InputDataFilename);
+                        _logger.LogInformation($"Resource file removal from S3 status: {httpStatusCode}");
+                    }                    
                 }
                 catch(FileNotFoundException fe)
                 {
-                    _logger.LogInformation("Data resources file not found in the location." + fe.Message);
+                    _logger.LogInformation("Data resource file not found in the location." + fe.Message);
                 }
                 catch (AmazonS3Exception e)
                 {
-                    _logger.LogError("Error reading file from S3 bucket" + e.Message);
+                    if(e.Message.Contains("Error while reading text file"))
+                    {
+                        _logger.LogInformation("No input data file in S3");
+                    }
+                    else
+                    {
+                        _logger.LogError($"Error accessing S3 bucket. {e.Message} {e.StackTrace}");
+                    }
                 }
                 await Task.Delay(TimeSpan.FromSeconds(10));
             }
@@ -85,7 +90,7 @@ namespace BookDataPump.Framework
                     await bookItemsDbContext.SaveChangesAsync();
                     _logger.LogInformation("DB records updated from the data resources file");
                 }
-            }                                
+            }
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
