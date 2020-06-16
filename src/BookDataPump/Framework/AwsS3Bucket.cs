@@ -10,13 +10,17 @@ using System.Threading.Tasks;
 
 namespace BookDataPump.Framework
 {
-    public static class AwsS3Bucket
+    public class AwsS3Bucket
     {
-        private static AmazonS3Client client;
+        private readonly AmazonS3Client _client;
 
-        public static async Task<HttpStatusCode> DeleteObjectDataAsync(string bucketName, string key)
+        public AwsS3Bucket() 
         {
-            client = new AmazonS3Client();
+            _client = new AmazonS3Client();
+        }
+
+        public async Task<HttpStatusCode> DeleteObjectDataAsync(string bucketName, string key)
+        {            
             try
             {
                 DeleteObjectRequest deleteRequest = new DeleteObjectRequest
@@ -24,7 +28,7 @@ namespace BookDataPump.Framework
                     BucketName = bucketName,
                     Key = key
                 };
-                DeleteObjectResponse deleteObjectResponse = await client.DeleteObjectAsync(deleteRequest);
+                DeleteObjectResponse deleteObjectResponse = await _client.DeleteObjectAsync(deleteRequest);
                 return deleteObjectResponse.HttpStatusCode;
             }
             catch (AmazonS3Exception e)
@@ -33,16 +37,15 @@ namespace BookDataPump.Framework
             }
         }
 
-        public static async Task<string> ListAllFilesInS3BucketAsync(string bucketName)
+        public async Task<string> ListAllFilesInS3BucketAsync(string bucketName)
         {
             string results = null;
-            client = new AmazonS3Client();
             ListObjectsRequest request = new ListObjectsRequest
             {
                 BucketName = bucketName
             };
 
-            ListObjectsResponse listObjectsResponse = await client.ListObjectsAsync(request);
+            ListObjectsResponse listObjectsResponse = await _client.ListObjectsAsync(request);
             foreach (S3Object entry in listObjectsResponse.S3Objects)
             {
                 results += $"key = {entry.Key} size = {entry.Size}";
@@ -50,23 +53,20 @@ namespace BookDataPump.Framework
             return results;
         }
 
-        public static async Task<HttpStatusCode> PutTextFileToS3BucketAsync(string key, string contents, string bucketName)
+        public async Task<HttpStatusCode> PutTextFileToS3BucketAsync(string key, string contents, string bucketName)
         {
             PutObjectResponse putObjectResponse;
             try
             {
-                using (client = new AmazonS3Client())
+                PutObjectRequest putObjectRequest = new PutObjectRequest
                 {
-                    PutObjectRequest putObjectRequest = new PutObjectRequest
-                    {
-                        BucketName = bucketName,
-                        ContentBody = contents,
-                        ContentType = "text/plain",                        
-                        Key = key
-                    };
+                    BucketName = bucketName,
+                    ContentBody = contents,
+                    ContentType = "text/plain",                        
+                    Key = key
+                };
+                putObjectResponse = await _client.PutObjectAsync(putObjectRequest);
 
-                    putObjectResponse = await client.PutObjectAsync(putObjectRequest);
-                }
                 return putObjectResponse.HttpStatusCode;
             }
             catch (AmazonS3Exception e)
@@ -75,7 +75,7 @@ namespace BookDataPump.Framework
             }            
         }
 
-        public static async Task<Stream> ReadObjectDataAsync(string bucketName, string key)
+        public async Task<Stream> ReadObjectDataAsync(string bucketName, string key)
         {
             try
             {
@@ -84,7 +84,7 @@ namespace BookDataPump.Framework
                     BucketName = bucketName,
                     Key = key
                 };
-                GetObjectResponse response = await client.GetObjectAsync(request);
+                GetObjectResponse response = await _client.GetObjectAsync(request);
                 return response.ResponseStream;
             }
             catch (AmazonS3Exception e)

@@ -21,11 +21,13 @@ namespace BookDataPump.Framework
         private readonly ILogger _logger;
         private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly IConfiguration _configuration;
-        public InputDataPoller(IServiceScopeFactory serviceScopeFactory, IConfiguration configuration, ILogger<InputDataPoller> logger)
+        private readonly AwsS3Bucket _awsS3Bucket;
+        public InputDataPoller(IServiceScopeFactory serviceScopeFactory, IConfiguration configuration, ILogger<InputDataPoller> logger, AwsS3Bucket awsS3Bucket)
         {
             _serviceScopeFactory = serviceScopeFactory;
             _configuration = configuration;
             _logger = logger;
+            _awsS3Bucket = awsS3Bucket;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
@@ -37,20 +39,20 @@ namespace BookDataPump.Framework
                 var bookItemsDbContext = scope.ServiceProvider.GetRequiredService<BookItemsDbContext>();
                 try
                 {
-                    string results = await AwsS3Bucket.ListAllFilesInS3BucketAsync(S3Settings.S3SourceBucketName);
+                    string results = await _awsS3Bucket.ListAllFilesInS3BucketAsync(S3Settings.S3SourceBucketName);
                     _logger.LogInformation($"S3 Bucket Results: {results}");
 
-                    Stream stream = await AwsS3Bucket.ReadObjectDataAsync(S3Settings.S3SourceBucketName, S3Settings.InputDataFilename);
+                    Stream stream = await _awsS3Bucket.ReadObjectDataAsync(S3Settings.S3SourceBucketName, S3Settings.InputDataFilename);
                     using (streamReader = new StreamReader(stream))
                     {
                         var jsonInputReader = new JsonInputReader(streamReader);
                         string bookDataJson = jsonInputReader.GetAllDataFromJsonFileSerialized();
                         await AddOrUpdateEntity(bookItemsDbContext, JsonConvert.DeserializeObject<BookApiResponse>(bookDataJson).Items);
 
-                        await AwsS3Bucket.PutTextFileToS3BucketAsync(S3Settings.ArchiveFilename, bookDataJson, S3Settings.S3ArchiveBucketName);
+                        await _awsS3Bucket.PutTextFileToS3BucketAsync(S3Settings.ArchiveFilename, bookDataJson, S3Settings.S3ArchiveBucketName);
                         _logger.LogInformation("Data from resources file is read and the DB has been updated");
 
-                        HttpStatusCode httpStatusCode = await AwsS3Bucket.DeleteObjectDataAsync(S3Settings.S3SourceBucketName, S3Settings.InputDataFilename);
+                        HttpStatusCode httpStatusCode = await _awsS3Bucket.DeleteObjectDataAsync(S3Settings.S3SourceBucketName, S3Settings.InputDataFilename);
                         _logger.LogInformation($"Resource file removal from S3 status: {httpStatusCode}");
                     }                    
                 }

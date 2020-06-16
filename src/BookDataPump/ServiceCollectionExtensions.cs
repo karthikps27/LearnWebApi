@@ -19,7 +19,10 @@ namespace BookDataPump
             string DBPassword = configuration["DBPassword"];
 
             return services
-                .AddDbContext<BookItemsDbContext>(options => options.UseNpgsql($"Server={DBServerUrl};Database=Books;Username={DBUsername};Password={DBPassword}"));
+                .AddDbContext<BookItemsDbContext>(options => 
+                {
+                    options.UseNpgsql($"Server={DBServerUrl};Database=Books;Username={DBUsername};Password={DBPassword}");
+                });
         }
     }
 }

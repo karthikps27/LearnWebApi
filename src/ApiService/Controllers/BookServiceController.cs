@@ -26,8 +26,10 @@ namespace ApiService.Controllers
             {
                 if(bookId == null)
                 {
+                    _logger.LogInformation($"Request for viewing all books data received");
                     return _bookDataFetchService.GetAllBooksData();
                 }
+                
                 _logger.LogInformation($"Request for viewing bookdata received with bookId: {bookId}");
                 return _bookDataFetchService.GetBookData(bookId);                
             }
