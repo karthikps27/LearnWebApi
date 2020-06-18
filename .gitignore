@@ -8,3 +8,5 @@ publish/
 *.log
 *.user
 build/Settings/GlobalSettings.cs
+
+src/BookMaster/appsettings.json
