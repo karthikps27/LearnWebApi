@@ -1,0 +1,815 @@
+﻿{
+  "kind": "books#volumes",
+  "totalItems": 1233,
+  "items": [
+    {
+      "kind": "books#volume",
+      "id": "lrf4xxsgmd8C",
+      "etag": "If0gLY4bxoY",
+      "selfLink": "https://content.googleapis.com/books/v1/volumes/lrf4xxsgmd8C",
+      "volumeInfo": {
+        "title": "The Busy Coder's Guide to Android Development",
+        "authors": [
+          "Mark L. Murphy"
+        ],
+        "publisher": "CommonsWare",
+        "publishedDate": "2009",
+        "description": "\"Java Programming & Application Development for Google/Open Handset Alliance Mobile Phones & Internet Devices.\"",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9780981678009"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "0981678009"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": false
+        },
+        "pageCount": 443,
+        "printType": "BOOK",
+        "categories": [
+          "Computer programming"
+        ],
+        "averageRating": 4.5,
+        "ratingsCount": 12,
+        "contentVersion": "0.1.0.0.preview.0",
+        "imageLinks": {
+          "smallThumbnail": "http://bks4.books.google.com/books?id=lrf4xxsgmd8C&printsec=frontcover&img=1&zoom=5&source=public",
+          "thumbnail": "http://bks4.books.google.com/books?id=lrf4xxsgmd8C&printsec=frontcover&img=1&zoom=1&source=public"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.com/books?id=lrf4xxsgmd8C&dq=android&hl=&cd=1&source=public",
+        "infoLink": "http://books.google.com/books?id=lrf4xxsgmd8C&dq=android&hl=&source=public",
+        "canonicalVolumeLink": "http://books.google.com/books/about/The_Busy_Coder_s_Guide_to_Android_Develo.html?hl=&id=lrf4xxsgmd8C"
+      },
+      "saleInfo": {
+        "country": "US",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "US",
+        "viewability": "NO_PAGES",
+        "embeddable": false,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://books.google.com/books/reader?id=lrf4xxsgmd8C&hl=&printsec=frontcover&output=reader&source=public",
+        "accessViewStatus": "NONE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "&quot;Java Programming &amp; Application Development for Google/Open Handset Alliance Mobile Phones &amp; Internet Devices.&quot;"
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "OFXJXbCXjTgC",
+      "etag": "ddLsSVX9IrQ",
+      "selfLink": "https://content.googleapis.com/books/v1/volumes/OFXJXbCXjTgC",
+      "volumeInfo": {
+        "title": "Android Programming",
+        "subtitle": "The Big Nerd Ranch Guide",
+        "authors": [
+          "Brian Hardy",
+          "Bill Phillips"
+        ],
+        "publisher": "Addison-Wesley Professional",
+        "publishedDate": "2013-04-09",
+        "description": "Android Programming: The Big Nerd Ranch Guide: is an introductory Android book for programmers with Java experience. Based on Big Nerd Ranch’s popular Android Bootcamp course, this guide will lead you through the wilderness using hands-on example apps combined with clear explanations of key concepts and APIs. This book focuses on practical techniques for developing apps compatible with all versions of Android widely used today (Android 2.2 - 4.2). Write and run code every step of the way – creating apps that catalog crime scenes, browse photos, track your jogging route, and more. Each chapter and app has been designed and tested to provide the knowledge and experience you need to get started in Android development. Write and run code every step of the way — creating apps that catalog crime scenes, browse photos, track your jogging route, and more. Each chapter and app has been designed and tested to provide the knowledge and experience you need to get started in Android development. \"Big Nerd Ranch provided the training we needed to get hundreds of engineers building skillfully on Android. This book is a great distillation of that training and will be a huge help to anyone looking to ramp up as well.\" – Mike Shaver, Director of Mobile Engineering, Facebook \"…a must-have for the developer just starting in Android or ready for more advanced techniques. I was impressed with this book’s content and clarity of presentation. The authors explain simple and complex Android topics with equal ease.\" – James Steele, author of The Android Developer's Cookbook",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9780132869102"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "0132869101"
+          }
+        ],
+        "readingModes": {
+          "text": true,
+          "image": true
+        },
+        "pageCount": 580,
+        "printType": "BOOK",
+        "categories": [
+          "Computers"
+        ],
+        "averageRating": 4,
+        "ratingsCount": 6,
+        "contentVersion": "2.4.4.0.preview.3",
+        "imageLinks": {
+          "smallThumbnail": "http://bks2.books.google.com/books?id=OFXJXbCXjTgC&printsec=frontcover&img=1&zoom=5&edge=curl&source=public",
+          "thumbnail": "http://bks2.books.google.com/books?id=OFXJXbCXjTgC&printsec=frontcover&img=1&zoom=1&edge=curl&source=public"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.com/books?id=OFXJXbCXjTgC&printsec=frontcover&dq=android&hl=&cd=2&source=public",
+        "infoLink": "http://books.google.com/books?id=OFXJXbCXjTgC&dq=android&hl=&source=public",
+        "canonicalVolumeLink": "http://books.google.com/books/about/Android_Programming.html?hl=&id=OFXJXbCXjTgC"
+      },
+      "saleInfo": {
+        "country": "US",
+        "saleability": "FOR_SALE",
+        "isEbook": true,
+        "listPrice": {
+          "amount": 39.99,
+          "currencyCode": "USD"
+        },
+        "retailPrice": {
+          "amount": 22.99,
+          "currencyCode": "USD"
+        },
+        "buyLink": "http://books.google.com/books?id=OFXJXbCXjTgC&dq=android&hl=&buy=&source=public",
+        "offers": [
+          {
+            "finskyOfferType": 1,
+            "listPrice": {
+              "amountInMicros": 39990000,
+              "currencyCode": "USD"
+            },
+            "retailPrice": {
+              "amountInMicros": 22990000,
+              "currencyCode": "USD"
+            }
+          }
+        ]
+      },
+      "accessInfo": {
+        "country": "US",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED_FOR_ACCESSIBILITY",
+        "epub": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.com/books/download/Android_Programming-sample-epub.acsm?id=OFXJXbCXjTgC&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=public"
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.com/books/download/Android_Programming-sample-pdf.acsm?id=OFXJXbCXjTgC&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=public"
+        },
+        "webReaderLink": "http://books.google.com/books/reader?id=OFXJXbCXjTgC&hl=&printsec=frontcover&output=reader&source=public",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "This book focuses on practical techniques for developing apps compatible with all versions of Android widely used today (Android 2.2 - 4.2)."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "zDibrpXTfxMC",
+      "etag": "LCu0VBeafFs",
+      "selfLink": "https://content.googleapis.com/books/v1/volumes/zDibrpXTfxMC",
+      "volumeInfo": {
+        "title": "Android Forensics",
+        "subtitle": "Investigation, Analysis, and Mobile Security for Google Android",
+        "authors": [
+          "Andrew Hoog"
+        ],
+        "publisher": "Elsevier",
+        "publishedDate": "2011",
+        "description": "\"Android Forensics\" covers an open source mobile device platform based on the Linux 2.6 kernel and managed by the Open Handset Alliance. This book provides a thorough review of the Android platform including supported hardware devices, the structure of the Android development project, and implementation of core services (wireless communication, data storage, and other low-level functions).",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9781597496513"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "1597496510"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 372,
+        "printType": "BOOK",
+        "categories": [
+          "Computers"
+        ],
+        "contentVersion": "preview-1.0.0",
+        "imageLinks": {
+          "smallThumbnail": "http://bks9.books.google.com/books?id=zDibrpXTfxMC&printsec=frontcover&img=1&zoom=5&edge=curl&source=public",
+          "thumbnail": "http://bks9.books.google.com/books?id=zDibrpXTfxMC&printsec=frontcover&img=1&zoom=1&edge=curl&source=public"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.com/books?id=zDibrpXTfxMC&printsec=frontcover&dq=android&hl=&cd=3&source=public",
+        "infoLink": "http://books.google.com/books?id=zDibrpXTfxMC&dq=android&hl=&source=public",
+        "canonicalVolumeLink": "http://books.google.com/books/about/Android_Forensics.html?hl=&id=zDibrpXTfxMC"
+      },
+      "saleInfo": {
+        "country": "US",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "US",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://books.google.com/books/reader?id=zDibrpXTfxMC&hl=&printsec=frontcover&output=reader&source=public",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "This book provides a thorough review of the Android platform including supported hardware devices, the structure of the Android development project, and implementation of core services (wireless communication, data storage, and other low ..."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "7GKMAgAAQBAJ",
+      "etag": "Qx3+kAYU9pI",
+      "selfLink": "https://content.googleapis.com/books/v1/volumes/7GKMAgAAQBAJ",
+      "volumeInfo": {
+        "title": "Learning Android",
+        "subtitle": "Develop Mobile Apps Using Java and Eclipse",
+        "authors": [
+          "Marko Gargenta",
+          "Masumi Nakamura"
+        ],
+        "publisher": "\"O'Reilly Media, Inc.\"",
+        "publishedDate": "2014-01-09",
+        "description": "Want to build apps for Android devices? This book is the perfect way to master the fundamentals. Written by experts who have taught this mobile platform to hundreds of developers in large organizations and startups alike, this gentle introduction shows experienced object-oriented programmers how to use Android’s basic building blocks to create user interfaces, store data, connect to the network, and more. Throughout the book, you’ll build a Twitter-like application, adding new features with each chapter. You’ll also create your own toolbox of code patterns to help you program any type of Android application with ease. Become familiar with the Android platform and how it fits into the mobile ecosystem Dive into the Android stack, including its application framework and the APK application package Learn Android’s building blocks: Activities, Intents, Services, Content Providers, and Broadcast Receivers Create basic Android user interfaces and organize UI elements in Views and Layouts Build a service that uses a background process to update data in your application",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9781449336257"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "1449336256"
+          }
+        ],
+        "readingModes": {
+          "text": true,
+          "image": true
+        },
+        "pageCount": 288,
+        "printType": "BOOK",
+        "categories": [
+          "Computers"
+        ],
+        "averageRating": 2.5,
+        "ratingsCount": 13,
+        "contentVersion": "1.2.2.0.preview.3",
+        "imageLinks": {
+          "smallThumbnail": "http://bks7.books.google.com/books?id=7GKMAgAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=public",
+          "thumbnail": "http://bks7.books.google.com/books?id=7GKMAgAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=public"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.com/books?id=7GKMAgAAQBAJ&printsec=frontcover&dq=android&hl=&cd=4&source=public",
+        "infoLink": "http://books.google.com/books?id=7GKMAgAAQBAJ&dq=android&hl=&source=public",
+        "canonicalVolumeLink": "http://books.google.com/books/about/Learning_Android.html?hl=&id=7GKMAgAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "US",
+        "saleability": "FOR_SALE",
+        "isEbook": true,
+        "listPrice": {
+          "amount": 27.99,
+          "currencyCode": "USD"
+        },
+        "retailPrice": {
+          "amount": 15.39,
+          "currencyCode": "USD"
+        },
+        "buyLink": "http://books.google.com/books?id=7GKMAgAAQBAJ&dq=android&hl=&buy=&source=public",
+        "offers": [
+          {
+            "finskyOfferType": 1,
+            "listPrice": {
+              "amountInMicros": 27990000,
+              "currencyCode": "USD"
+            },
+            "retailPrice": {
+              "amountInMicros": 15390000,
+              "currencyCode": "USD"
+            }
+          }
+        ]
+      },
+      "accessInfo": {
+        "country": "US",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": true
+        },
+        "pdf": {
+          "isAvailable": true
+        },
+        "webReaderLink": "http://books.google.com/books/reader?id=7GKMAgAAQBAJ&hl=&printsec=frontcover&output=reader&source=public",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Want to build apps for Android devices? This book is the perfect way to master the fundamentals."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "Y4JR2yI2Fo0C",
+      "etag": "Yrzkqw98sBM",
+      "selfLink": "https://content.googleapis.com/books/v1/volumes/Y4JR2yI2Fo0C",
+      "volumeInfo": {
+        "title": "The Android Developer's Cookbook",
+        "subtitle": "Building Applications with the Android SDK",
+        "authors": [
+          "James Steele",
+          "Nelson To"
+        ],
+        "publisher": "Pearson Education",
+        "publishedDate": "2010-10-17",
+        "description": "Want to get started building applications for Android, the world’s hottest, fast-growing mobile platform? Already building Android applications and want to get better at it? This book brings together all the expert guidance—and code—you’ll need! Completely up-to-date to reflect the newest and most widely used Android SDKs, The Android Developer’s Cookbook is the essential resource for developers building apps for any Android device, from phones to tablets. Proven, modular recipes take you from the absolute basics to advanced location-based services, security techniques, and performance optimization. You’ll learn how to write apps from scratch, ensure interoperability, choose the best solutions for common problems, and avoid development pitfalls. Coverage includes: Implementing threads, services, receivers, and other background tasks Providing user alerts Organizing user interface layouts and views Managing user-initiated events such as touches and gestures Recording and playing audio and video Using hardware APIs available on Android devices Interacting with other devices via SMS, web browsing, and social networking Storing data efficiently with SQLite and its alternatives Accessing location data via GPS Using location-related services such as the Google Maps API Building faster applications with native code Providing backup and restore with the Android Backup Manager Testing and debugging apps throughout the development cycle Turn to The Android Developer’s Cookbook for proven, expert answers—and the code you need to implement them. It’s all you need to jumpstart any Android project, and create high-value, feature-rich apps that sell!",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9780132464567"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "013246456X"
+          }
+        ],
+        "readingModes": {
+          "text": true,
+          "image": true
+        },
+        "pageCount": 400,
+        "printType": "BOOK",
+        "categories": [
+          "Computers"
+        ],
+        "averageRating": 4.5,
+        "ratingsCount": 4,
+        "contentVersion": "1.3.0.0.preview.3",
+        "imageLinks": {
+          "smallThumbnail": "http://bks9.books.google.com/books?id=Y4JR2yI2Fo0C&printsec=frontcover&img=1&zoom=5&edge=curl&source=public",
+          "thumbnail": "http://bks9.books.google.com/books?id=Y4JR2yI2Fo0C&printsec=frontcover&img=1&zoom=1&edge=curl&source=public"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.com/books?id=Y4JR2yI2Fo0C&printsec=frontcover&dq=android&hl=&cd=5&source=public",
+        "infoLink": "http://books.google.com/books?id=Y4JR2yI2Fo0C&dq=android&hl=&source=public",
+        "canonicalVolumeLink": "http://books.google.com/books/about/The_Android_Developer_s_Cookbook.html?hl=&id=Y4JR2yI2Fo0C"
+      },
+      "saleInfo": {
+        "country": "US",
+        "saleability": "FOR_SALE",
+        "isEbook": true,
+        "listPrice": {
+          "amount": 35.99,
+          "currencyCode": "USD"
+        },
+        "retailPrice": {
+          "amount": 19.79,
+          "currencyCode": "USD"
+        },
+        "buyLink": "http://books.google.com/books?id=Y4JR2yI2Fo0C&dq=android&hl=&buy=&source=public",
+        "offers": [
+          {
+            "finskyOfferType": 1,
+            "listPrice": {
+              "amountInMicros": 35990000,
+              "currencyCode": "USD"
+            },
+            "retailPrice": {
+              "amountInMicros": 19790000,
+              "currencyCode": "USD"
+            }
+          }
+        ]
+      },
+      "accessInfo": {
+        "country": "US",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED_FOR_ACCESSIBILITY",
+        "epub": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.com/books/download/The_Android_Developer_s_Cookbook-sample-epub.acsm?id=Y4JR2yI2Fo0C&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=public"
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.com/books/download/The_Android_Developer_s_Cookbook-sample-pdf.acsm?id=Y4JR2yI2Fo0C&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=public"
+        },
+        "webReaderLink": "http://books.google.com/books/reader?id=Y4JR2yI2Fo0C&hl=&printsec=frontcover&output=reader&source=public",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Already building Android applications and want to get better at it? This book brings together all the expert guidance—and code—you’ll need!"
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "ROlZAs4WLYwC",
+      "etag": "vT9BENt0RgE",
+      "selfLink": "https://content.googleapis.com/books/v1/volumes/ROlZAs4WLYwC",
+      "volumeInfo": {
+        "title": "Pro Android Apps Performance Optimization",
+        "authors": [
+          "Hervé Guihot"
+        ],
+        "publisher": "Apress",
+        "publishedDate": "2012-01-17",
+        "description": "Today's Android apps developers are often running into the need to refine, improve and optimize their apps performances. As more complex apps can be created, it is even more important for developers to deal with this critical issue. Android allows developers to write apps using Java, C or a combination of both with the Android SDK and the Android NDK. Pro Android Apps Performance Optimization reveals how to fine-tune your Android apps, making them more stable and faster. In this book, you'll learn the following: How to optimize your Java code with the SDK, but also how to write and optimize native code using advanced features of the Android NDK such as using ARM single instruction multiple data (SIMD) instructions (in C or assembly) How to use multithreading in your application, how make best use of memory and how to maximize battery life How to use to some OpenGL optimizations and to Renderscript, a new feature in Android 3.0 (Honeycomb) and expanded in Android 4.0 (Ice Cream Sandwich). After reading and using this book, you'll be a better coder and your apps will be better-coded. Better-performing apps mean better reviews and eventually, more money for you as the app developer or your indie shop. What you’ll learn How to optimize your applications in Java How to optimize your applications using the NDK How to best use memory to maximize performance How to maximize battery life How and when to use multi-threading How to benchmark and profile your code How to optimize OpenGL code and use Renderscript Who this book is for Android developers already familiar with Java and Android SDK, who want to go one step further and learn how to maximize performance. Table of Contents Optimizing Java code Getting started with the Android NDK Using advanced NDK features Using memory efficiently Multithreading and synchronization Benchmarking and profiling your application Maximizing battery life OpenGL optimizations Renderscript",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9781430239994"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "1430239999"
+          }
+        ],
+        "readingModes": {
+          "text": true,
+          "image": true
+        },
+        "pageCount": 284,
+        "printType": "BOOK",
+        "categories": [
+          "Computers"
+        ],
+        "contentVersion": "1.2.3.0.preview.3",
+        "imageLinks": {
+          "smallThumbnail": "http://bks4.books.google.com/books?id=ROlZAs4WLYwC&printsec=frontcover&img=1&zoom=5&edge=curl&source=public",
+          "thumbnail": "http://bks4.books.google.com/books?id=ROlZAs4WLYwC&printsec=frontcover&img=1&zoom=1&edge=curl&source=public"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.com/books?id=ROlZAs4WLYwC&printsec=frontcover&dq=android&hl=&cd=6&source=public",
+        "infoLink": "http://books.google.com/books?id=ROlZAs4WLYwC&dq=android&hl=&source=public",
+        "canonicalVolumeLink": "http://books.google.com/books/about/Pro_Android_Apps_Performance_Optimizatio.html?hl=&id=ROlZAs4WLYwC"
+      },
+      "saleInfo": {
+        "country": "US",
+        "saleability": "FOR_SALE",
+        "isEbook": true,
+        "listPrice": {
+          "amount": 35.99,
+          "currencyCode": "USD"
+        },
+        "retailPrice": {
+          "amount": 19.79,
+          "currencyCode": "USD"
+        },
+        "buyLink": "http://books.google.com/books?id=ROlZAs4WLYwC&dq=android&hl=&buy=&source=public",
+        "offers": [
+          {
+            "finskyOfferType": 1,
+            "listPrice": {
+              "amountInMicros": 35990000,
+              "currencyCode": "USD"
+            },
+            "retailPrice": {
+              "amountInMicros": 19790000,
+              "currencyCode": "USD"
+            }
+          }
+        ]
+      },
+      "accessInfo": {
+        "country": "US",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": true
+        },
+        "pdf": {
+          "isAvailable": true
+        },
+        "webReaderLink": "http://books.google.com/books/reader?id=ROlZAs4WLYwC&hl=&printsec=frontcover&output=reader&source=public",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "In this book, you&#39;ll learn the following: How to optimize your Java code with the SDK, but also how to write and optimize native code using advanced features of the Android NDK such as using ARM single instruction multiple data (SIMD) ..."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "z5jAHfSeeJMC",
+      "etag": "aHV2JzQjpHw",
+      "selfLink": "https://content.googleapis.com/books/v1/volumes/z5jAHfSeeJMC",
+      "volumeInfo": {
+        "title": "Android UI Fundamentals",
+        "subtitle": "Develop & Design",
+        "authors": [
+          "Jason Ostrander"
+        ],
+        "publisher": "Peachpit Press",
+        "publishedDate": "2012-02-22",
+        "description": "Author Jason Ostrander walks developers through the different choices available on their way to creating a well-designed application for Android. While building a simple application, Jason works through the basics of Android UI development including layout, event handling, menus and notifications. The author then shows the proper way to load and display images, create advanced dialogs and progress indicators, add animation, and how to build custom UI elements. Jason discusses the proper way of adding interaction through gestures and the advanced graphical options available using Canvas, Renderscript and OpenGL. Finally, he discusses tablet development, the unique differences between phone and tablet UI, and the new APIs available to tablet developers.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9780132929028"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "0132929023"
+          }
+        ],
+        "readingModes": {
+          "text": true,
+          "image": true
+        },
+        "pageCount": 320,
+        "printType": "BOOK",
+        "categories": [
+          "Computers"
+        ],
+        "averageRating": 4,
+        "ratingsCount": 3,
+        "contentVersion": "3.3.3.0.preview.3",
+        "imageLinks": {
+          "smallThumbnail": "http://bks1.books.google.com/books?id=z5jAHfSeeJMC&printsec=frontcover&img=1&zoom=5&edge=curl&source=public",
+          "thumbnail": "http://bks1.books.google.com/books?id=z5jAHfSeeJMC&printsec=frontcover&img=1&zoom=1&edge=curl&source=public"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.com/books?id=z5jAHfSeeJMC&printsec=frontcover&dq=android&hl=&cd=7&source=public",
+        "infoLink": "http://books.google.com/books?id=z5jAHfSeeJMC&dq=android&hl=&source=public",
+        "canonicalVolumeLink": "http://books.google.com/books/about/Android_UI_Fundamentals.html?hl=&id=z5jAHfSeeJMC"
+      },
+      "saleInfo": {
+        "country": "US",
+        "saleability": "FOR_SALE",
+        "isEbook": true,
+        "listPrice": {
+          "amount": 35.99,
+          "currencyCode": "USD"
+        },
+        "retailPrice": {
+          "amount": 19.79,
+          "currencyCode": "USD"
+        },
+        "buyLink": "http://books.google.com/books?id=z5jAHfSeeJMC&dq=android&hl=&buy=&source=public",
+        "offers": [
+          {
+            "finskyOfferType": 1,
+            "listPrice": {
+              "amountInMicros": 35990000,
+              "currencyCode": "USD"
+            },
+            "retailPrice": {
+              "amountInMicros": 19790000,
+              "currencyCode": "USD"
+            }
+          }
+        ]
+      },
+      "accessInfo": {
+        "country": "US",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED_FOR_ACCESSIBILITY",
+        "epub": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.com/books/download/Android_UI_Fundamentals-sample-epub.acsm?id=z5jAHfSeeJMC&format=epub&output=acs4_fulfillment_token&dl_type=sample&source=public"
+        },
+        "pdf": {
+          "isAvailable": true,
+          "acsTokenLink": "http://books.google.com/books/download/Android_UI_Fundamentals-sample-pdf.acsm?id=z5jAHfSeeJMC&format=pdf&output=acs4_fulfillment_token&dl_type=sample&source=public"
+        },
+        "webReaderLink": "http://books.google.com/books/reader?id=z5jAHfSeeJMC&hl=&printsec=frontcover&output=reader&source=public",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Author Jason Ostrander walks developers through the different choices available on their way to creating a well-designed application for Android."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "J3pzkHoGIlUC",
+      "etag": "ki15aQzWq4s",
+      "selfLink": "https://content.googleapis.com/books/v1/volumes/J3pzkHoGIlUC",
+      "volumeInfo": {
+        "title": "Android Tablet Application Development For Dummies",
+        "authors": [
+          "Donn Felker"
+        ],
+        "publisher": "John Wiley & Sons",
+        "publishedDate": "2011-12-06",
+        "description": "Offers instructions on creating applications for Android tablets, covering such topics as coding, handling user input, data storage, and updating the Android status bar.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9781118096239"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "1118096231"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 384,
+        "printType": "BOOK",
+        "categories": [
+          "Computers"
+        ],
+        "contentVersion": "0.1.0.0.preview.1",
+        "imageLinks": {
+          "smallThumbnail": "http://bks6.books.google.com/books?id=J3pzkHoGIlUC&printsec=frontcover&img=1&zoom=5&edge=curl&source=public",
+          "thumbnail": "http://bks6.books.google.com/books?id=J3pzkHoGIlUC&printsec=frontcover&img=1&zoom=1&edge=curl&source=public"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.com/books?id=J3pzkHoGIlUC&printsec=frontcover&dq=android&hl=&cd=8&source=public",
+        "infoLink": "http://books.google.com/books?id=J3pzkHoGIlUC&dq=android&hl=&source=public",
+        "canonicalVolumeLink": "http://books.google.com/books/about/Android_Tablet_Application_Development_F.html?hl=&id=J3pzkHoGIlUC"
+      },
+      "saleInfo": {
+        "country": "US",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "US",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://books.google.com/books/reader?id=J3pzkHoGIlUC&hl=&printsec=frontcover&output=reader&source=public",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "The Android tablet is a developer&#39;s dream — this book helps you get in on the action! Once the new kid on the block, Android now holds more than 50 percent of the mobile OS market."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "mrWwvKbTwFcC",
+      "etag": "/vviRioT9g8",
+      "selfLink": "https://content.googleapis.com/books/v1/volumes/mrWwvKbTwFcC",
+      "volumeInfo": {
+        "title": "Building Android Apps",
+        "authors": [
+          "Mike McGrath"
+        ],
+        "publisher": "In Easy Steps",
+        "publishedDate": "2012",
+        "description": "Provides information on using App Inventor to build and deploy applications for Android devices.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9781840785289"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "1840785284"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 192,
+        "printType": "BOOK",
+        "categories": [
+          "Computers"
+        ],
+        "averageRating": 5,
+        "ratingsCount": 1,
+        "contentVersion": "preview-1.0.0",
+        "imageLinks": {
+          "smallThumbnail": "http://bks3.books.google.com/books?id=mrWwvKbTwFcC&printsec=frontcover&img=1&zoom=5&edge=curl&source=public",
+          "thumbnail": "http://bks3.books.google.com/books?id=mrWwvKbTwFcC&printsec=frontcover&img=1&zoom=1&edge=curl&source=public"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.com/books?id=mrWwvKbTwFcC&printsec=frontcover&dq=android&hl=&cd=9&source=public",
+        "infoLink": "http://books.google.com/books?id=mrWwvKbTwFcC&dq=android&hl=&source=public",
+        "canonicalVolumeLink": "http://books.google.com/books/about/Building_Android_Apps.html?hl=&id=mrWwvKbTwFcC"
+      },
+      "saleInfo": {
+        "country": "US",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "US",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://books.google.com/books/reader?id=mrWwvKbTwFcC&hl=&printsec=frontcover&output=reader&source=public",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Provides information on using App Inventor to build and deploy applications for Android devices."
+      }
+    },
+    {
+      "kind": "books#volume",
+      "id": "uZ0TnlxOnU4C",
+      "etag": "NVCkOb8yVSE",
+      "selfLink": "https://content.googleapis.com/books/v1/volumes/uZ0TnlxOnU4C",
+      "volumeInfo": {
+        "title": "Sams Teach Yourself Android Application Development in 24 Hours",
+        "authors": [
+          "Lauren Darcey",
+          "Shane Conder"
+        ],
+        "publisher": "Sams Publishing",
+        "publishedDate": "2012",
+        "description": "Offers software developers step-by-step instructions on how to create and distribute their first marketable, professional Android application.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9780672335693"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "0672335697"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 485,
+        "printType": "BOOK",
+        "categories": [
+          "Computers"
+        ],
+        "averageRating": 3.5,
+        "ratingsCount": 4,
+        "contentVersion": "preview-1.0.0",
+        "imageLinks": {
+          "smallThumbnail": "http://bks1.books.google.com/books?id=uZ0TnlxOnU4C&printsec=frontcover&img=1&zoom=5&edge=curl&source=public",
+          "thumbnail": "http://bks1.books.google.com/books?id=uZ0TnlxOnU4C&printsec=frontcover&img=1&zoom=1&edge=curl&source=public"
+        },
+        "language": "en",
+        "previewLink": "http://books.google.com/books?id=uZ0TnlxOnU4C&printsec=frontcover&dq=android&hl=&cd=10&source=public",
+        "infoLink": "http://books.google.com/books?id=uZ0TnlxOnU4C&dq=android&hl=&source=public",
+        "canonicalVolumeLink": "http://books.google.com/books/about/Sams_Teach_Yourself_Android_Application.html?hl=&id=uZ0TnlxOnU4C"
+      },
+      "saleInfo": {
+        "country": "US",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "US",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED_FOR_ACCESSIBILITY",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://books.google.com/books/reader?id=uZ0TnlxOnU4C&hl=&printsec=frontcover&output=reader&source=public",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Offers software developers step-by-step instructions on how to create and distribute their first marketable, professional Android application."
+      }
+    }
+  ]
+}
