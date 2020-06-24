@@ -10,3 +10,9 @@ publish/
 build/Settings/GlobalSettings.cs
 
 src/BookMaster/appsettings.json
+
+logs/
+
+src/BookMaster.Data/Migrations/
+
+src/BookDataPump/Migrations/
