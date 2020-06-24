@@ -4,9 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using LearnWebApi.Infrastructure;
-using LearnWebApi.Repository;
-using LearnWebApi.Services;
 using BookMaster.Data.Models;
 using BookMaster.Data.Framework;
 using BookMaster.Data;
@@ -27,18 +24,12 @@ namespace LearnWebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .Configure<AppSettings>(Configuration)
-                .AddSingleton<ILocalCache, LocalCache>()
+                .Configure<AppSettings>(Configuration)                
                 .AddSingleton<AwsS3Bucket>()
-                .AddTransient<IStrongPasswordRepository, StrongPasswordRepository>()
-                .AddTransient<IStrongPasswordCheckService, StrongPasswordCheckService>()
                 .AddApplicationServices()
                 .AddLogging()
-           //.AddDbContextPool<UserDataContext>(options => options.UseNpgsql(Configuration.GetSection("DBConnectionString").Value))
-            .AddBookDataDBContext(Configuration)
-            //.AddDbContext<UserDataContext>()
-            //.AddDbContext<BookItemsDbContext>()
-            .AddControllers();
+                .AddBookDataDBContext(Configuration)
+                .AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
