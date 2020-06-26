@@ -24,17 +24,20 @@ namespace BookDataService.Service
             _bookRepository = bookRepository;
             _logger = logger;
         }
+        public async Task AddBookData(String filename, String fileContent)
+        {
+            HttpStatusCode moveFileStatusCode = await _awsS3Bucket.PutTextFileToS3BucketAsync(filename, fileContent, S3Settings.S3SourceBucketName);
+            _logger.LogInformation($"New book data uploaded to S3: {moveFileStatusCode}");
+        }
 
         public async Task ProcessFile(string s3Filename)
         {
             using Stream stream = await _awsS3Bucket.ReadObjectDataAsync(S3Settings.S3SourceBucketName, s3Filename);
-            using (var streamReader = new StreamReader(stream))
-            {
-                string bookDataJson = streamReader.ReadToEnd();
-                await UpsertBooks(JsonConvert.DeserializeObject<BookApiResponse>(bookDataJson).Items);
+            using var streamReader = new StreamReader(stream);
+            string bookDataJson = streamReader.ReadToEnd();
+            await UpsertBooks(JsonConvert.DeserializeObject<BookApiResponse>(bookDataJson).Items);
 
-                await MoveFileToArchive(s3Filename, bookDataJson);
-            }
+            await MoveFileToArchive(s3Filename, bookDataJson);
         }
 
         public async Task<IEnumerable<string>> GetAllFiles()
@@ -60,6 +63,6 @@ namespace BookDataService.Service
                     return false;
             }
             return true;
-        }
+        }        
     }
 }

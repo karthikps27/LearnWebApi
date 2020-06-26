@@ -1,9 +1,12 @@
-﻿using BookMaster.Service;
+﻿using BookDataService.Service;
+using BookMaster.Model;
+using BookMaster.Service;
 using BookMaster.Service.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,11 +18,13 @@ namespace ApiService.Controllers
     {
         private readonly BookManagerService _bookManagerService;
         private readonly ILogger _logger;
+        private readonly S3FileProcessorService _s3FileProcessorService;
 
-        public BookServiceController(BookManagerService bookManagerService, ILogger<BookServiceController> logger)
+        public BookServiceController(BookManagerService bookManagerService, S3FileProcessorService s3FileProcessorService, ILogger<BookServiceController> logger)
         {
             _bookManagerService = bookManagerService;
             _logger = logger;
+            _s3FileProcessorService = s3FileProcessorService;
         }
 
         [HttpGet]
@@ -46,6 +51,39 @@ namespace ApiService.Controllers
                 _logger.LogError($"Error with Request for viewing bookdata for bookId: {bookId}");
                 return StatusCode(StatusCodes.Status204NoContent, new { Status = "Error while fetching user data", exception.Message });
             }            
-        }        
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddBookData([FromForm] ResourceFileRequest bookDataRequest)
+        {
+            Stream stream = null;
+            try
+            {
+                Request.Headers.TryGetValue("auth_key", out var authKey);
+                if (bookDataRequest.JsonFile.Length > 0 && authKey == "jfklsjafiowuerjlkfujsoirjlk")
+                {
+                    stream = bookDataRequest.JsonFile.OpenReadStream();
+                    using (var streamReader = new StreamReader(stream))
+                    {
+                        var fileContent = streamReader.ReadToEnd();
+                        await _s3FileProcessorService.AddBookData(bookDataRequest.Name, fileContent);
+                    }                    
+                    return StatusCode(StatusCodes.Status200OK, new { Status = "Data from the file successfully processed" });                    
+                }
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Bad request"});
+            }
+            catch(Exception exception)
+            {
+                _logger.LogError($"Error while processing data from the file: {exception.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error while process data from the file", exception.Message });
+            }
+            finally
+            {
+                if(stream != null)
+                {
+                    stream.Close();
+                }                
+            }
+        }
     }
 }
