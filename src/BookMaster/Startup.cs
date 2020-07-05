@@ -8,6 +8,8 @@ using BookMaster.Data.Models;
 using BookMaster.Data.Framework;
 using BookMaster.Data;
 using ApiService.Infrastructure;
+using BookMaster.Security;
+using BookMaster.Security.Framework;
 
 namespace LearnWebApi
 {
@@ -24,9 +26,10 @@ namespace LearnWebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .Configure<AppSettings>(Configuration)                
+                .Configure<AppSettings>(Configuration)
                 .AddSingleton<AwsS3Bucket>()
                 .AddApplicationServices()
+                .AddSecurityServices()
                 .AddLogging()
                 .AddBookDataDBContext(Configuration)
                 .AddControllers();

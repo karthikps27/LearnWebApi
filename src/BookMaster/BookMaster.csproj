@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.SimpleSystemsManagement" Version="3.3.125.1" />
+    <PackageReference Include="AWSSDK.SimpleSystemsManagement" Version="3.3.126.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.4">
       <PrivateAssets>all</PrivateAssets>
@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BookMaster.Security\BookMaster.Security.csproj" />
     <ProjectReference Include="..\BookMaster.Service\BookMaster.Service.csproj" />
   </ItemGroup>
 

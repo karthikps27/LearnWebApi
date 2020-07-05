@@ -1,5 +1,6 @@
 ﻿using BookDataService.Service;
 using BookMaster.Model;
+using BookMaster.Security;
 using BookMaster.Service;
 using BookMaster.Service.Models;
 using Microsoft.AspNetCore.Http;
@@ -19,12 +20,14 @@ namespace ApiService.Controllers
         private readonly BookManagerService _bookManagerService;
         private readonly ILogger _logger;
         private readonly S3FileProcessorService _s3FileProcessorService;
+        private readonly TokenManagerService _tokenManagerService;
 
-        public BookServiceController(BookManagerService bookManagerService, S3FileProcessorService s3FileProcessorService, ILogger<BookServiceController> logger)
+        public BookServiceController(BookManagerService bookManagerService, S3FileProcessorService s3FileProcessorService, TokenManagerService tokenManagerService, ILogger<BookServiceController> logger)
         {
             _bookManagerService = bookManagerService;
             _logger = logger;
             _s3FileProcessorService = s3FileProcessorService;
+            _tokenManagerService = tokenManagerService;
         }
 
         [HttpGet]
@@ -59,8 +62,8 @@ namespace ApiService.Controllers
             Stream stream = null;
             try
             {
-                Request.Headers.TryGetValue("auth_key", out var authKey);
-                if (bookDataRequest.JsonFile.Length > 0 && authKey == "jfklsjafiowuerjlkfujsoirjlk")
+                Request.Headers.TryGetValue("auth_key", out var authKey);                
+                if (bookDataRequest.JsonFile.Length > 0 && await _tokenManagerService.ValidateToken(authKey))
                 {
                     stream = bookDataRequest.JsonFile.OpenReadStream();
                     using (var streamReader = new StreamReader(stream))
@@ -68,7 +71,7 @@ namespace ApiService.Controllers
                         var fileContent = streamReader.ReadToEnd();
                         await _s3FileProcessorService.AddBookData(bookDataRequest.Name, fileContent);
                     }                    
-                    return StatusCode(StatusCodes.Status200OK, new { Status = "Data from the file successfully processed" });                    
+                    return StatusCode(StatusCodes.Status200OK, new { Status = "Data from the file successfully processed" });
                 }
                 return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Bad request"});
             }
