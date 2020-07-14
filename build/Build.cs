@@ -133,7 +133,7 @@ namespace Build.Targets
 
         public static int Main() => Execute<Build>(x => x.Compile);
 
-        [Solution("LearnWebApi.sln")] readonly Solution Solution;
+        [Solution("BookMaster.sln")] readonly Solution Solution;
 
         public AbsolutePath SourceDirectory => RootDirectory / "src";
         public AbsolutePath OutputDirectory => RootDirectory / "output";

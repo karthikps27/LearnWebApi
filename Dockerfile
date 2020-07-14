@@ -6,6 +6,6 @@ WORKDIR /app
 #Doing this as there no file difference seen with and without the Docker file
 
 COPY ./* ./
-RUN chmod +x ApiService*
+RUN chmod +x BookMaster*
 
-ENTRYPOINT ["dotnet","ApiService.dll"]
+ENTRYPOINT ["dotnet","BookMaster.dll"]
